@@ -22,3 +22,8 @@ gem 'railroad'
 gem 'eventmachine'
 gem 'rest-client'
 gem 'daemons'
+
+group :test, :development do
+  gem "factory_girl"
+  gem "rspec-rails", "~> 2.4"
+end
