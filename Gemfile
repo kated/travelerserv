@@ -24,6 +24,7 @@ gem 'rest-client'
 gem 'daemons'
 
 group :test, :development do
+  gem "capistrano"
   gem "factory_girl"
   gem "rspec-rails", "~> 2.4"
 end
