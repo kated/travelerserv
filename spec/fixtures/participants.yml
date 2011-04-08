@@ -1,0 +1,47 @@
+kate:
+  encrypted_password: $2a$10$6qJo/c/rgDS/qhBbMm1xEu7WStYnY7HEyp2HOXcU2d/ufpXsrU/UO  # password is "password"
+  created_at: 2010-12-28 00:04:29 Z
+  updated_at: 2011-03-17 16:24:35 Z
+  last_sign_in_ip: 70.177.28.245
+  last_sign_in_at: 2011-03-17 16:12:01 Z
+  sign_in_count: 36
+  timezone:
+  identification:
+  password_salt: $2a$10$6qJo/c/rgDS/qhBbMm1xEu
+  sex:
+  current_sign_in_ip: 174.253.248.197
+  remember_token:
+  reset_password_token:
+  last_name: Deutsch
+  cell_number: "8587355360"
+  current_sign_in_at: 2011-03-17 16:24:35 Z
+  remember_created_at:
+  invitation_sent_at:
+  age:
+  invitation_token:
+  email: kedeutsch@gmail.com
+  first_name: Kate
+
+david:
+  encrypted_password: $2a$10$6qJo/c/rgDS/qhBbMm1xEu7WStYnY7HEyp2HOXcU2d/ufpXsrU/UO  # password is "password"
+  created_at: &id001 2011-04-02 23:24:42.923407 Z
+  updated_at: *id001
+  last_sign_in_ip:
+  last_sign_in_at:
+  sign_in_count: 0
+  timezone:
+  identification:
+  password_salt: $2a$10$6qJo/c/rgDS/qhBbMm1xEu
+  sex:
+  current_sign_in_ip:
+  remember_token:
+  reset_password_token:
+  last_name: Stevenson
+  cell_number: "8054528944"
+  current_sign_in_at:
+  remember_created_at:
+  invitation_sent_at:
+  age:
+  invitation_token:
+  email: david@flouri.sh
+  first_name: David

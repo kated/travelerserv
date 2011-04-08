@@ -1,0 +1,39 @@
+david_day1_fix1:
+  id: 1
+  participant: david
+  latitude: 35.02
+  longitude: -122.54
+  altitude: 25.0
+  datetime: 2011-04-01 12:00:00 Z
+
+david_day1_fix2:
+  id: 10
+  participant: david
+  latitude: 35.05
+  longitude: -122.54
+  altitude: 25.0
+  datetime: 2011-04-01 13:00:00 Z
+
+david_day1_fix3:
+  id: 20
+  participant: david
+  latitude: 35.09
+  longitude: -122.50
+  altitude: 20.0
+  datetime: 2011-04-01 14:00:00 Z
+
+david_day1_fix4:
+  id: 30
+  participant: david
+  latitude: 35.15
+  longitude: -122.70
+  altitude: 100.0
+  datetime: 2011-04-01 15:00:00 Z
+
+kate_day1_fix1:
+  id: 2
+  participant: kate
+  latitude: 30.0
+  longitude: -120.0
+  altitude: 30.0
+  datetime: 2011-04-01 12:00:00 Z

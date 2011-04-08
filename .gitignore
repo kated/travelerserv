@@ -1,5 +1,6 @@
 *.rbc
 *.sassc
+.idea/
 .sass-cache
 capybara-*.html
 .rspec
@@ -8,6 +9,7 @@ capybara-*.html
 /log/*
 /tmp/*
 /db/*.sqlite3
+/db/*.sql
 /public/system/*
 /coverage/
 /spec/tmp/*
