@@ -27,6 +27,6 @@ namespace :deploy do
    task :start do ; end
    task :stop do ; end
    task :restart, :roles => :app, :except => { :no_release => true } do
-     run "touch #{File.join(current_path,'tmp','restart.txt')}"
+     run "sudo monit restart all"  # restart enduro daemon & apache+passenger
    end
 end
