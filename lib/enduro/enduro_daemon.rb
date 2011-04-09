@@ -1,6 +1,10 @@
-#!/usr/bin/env /usr/local/bin/ruby
+#!/usr/bin/env ruby
 
 require 'rubygems'
 require 'daemons'
 
-Daemons.run('/var/www/rails/travelerserv/lib/enduro/enduro_server.rb')
+dir = File.dirname(__FILE__)
+Daemons.run("#{dir}/enduro_server.rb",
+       :dir_mode   => :script,
+       :dir        => '../../tmp/pids'
+)
