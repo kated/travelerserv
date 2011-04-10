@@ -1,0 +1,9 @@
+kate_day2:
+  participant: kate
+  start_travel_fix_id: 40
+  end_travel_fix_id: 60
+
+kate_day3:
+  participant: kate
+  start_travel_fix_id: 70
+  end_travel_fix_id: 80

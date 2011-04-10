@@ -1,6 +1,4 @@
-class Participant::SiteController < ApplicationController
-  before_filter :authenticate_participant!
-  
+class Participant::SiteController < Participant::BaseController
   def dashboard
     
   end

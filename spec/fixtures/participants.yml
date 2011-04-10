@@ -23,7 +23,7 @@ kate:
   first_name: Kate
 
 david:
-  encrypted_password: $2a$10$6qJo/c/rgDS/qhBbMm1xEu7WStYnY7HEyp2HOXcU2d/ufpXsrU/UO  # password is "password"
+  encrypted_password: "$2a$10$6qJo/c/rgDS/qhBbMm1xEu7WStYnY7HEyp2HOXcU2d/ufpXsrU/UO"  # password is "password"
   created_at: &id001 2011-04-02 23:24:42.923407 Z
   updated_at: *id001
   last_sign_in_ip:
@@ -31,7 +31,7 @@ david:
   sign_in_count: 0
   timezone:
   identification:
-  password_salt: $2a$10$6qJo/c/rgDS/qhBbMm1xEu
+  password_salt: "$2a$10$6qJo/c/rgDS/qhBbMm1xEu"
   sex:
   current_sign_in_ip:
   remember_token:

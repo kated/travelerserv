@@ -1,0 +1,13 @@
+%h1 Your trips and activities by day
+
+%ul.days
+  - @trips_by_day.each do |day, trips|
+    %li
+      %h3=day
+      %ul.trips
+        - trips.each do |trip|
+          %li
+            == #{trip.travel_fixes.size} fixes
+            == from #{trip.start_travel_fix.datetime.to_s(:short)} to #{trip.end_travel_fix.datetime.to_s(:short)}
+
+

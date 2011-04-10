@@ -1,305 +1,297 @@
-!!!
-%head
-  =stylesheet_link_tag "viewer"
-  =javascript_include_tag "jquery"
-  =javascript_include_tag "json2", "underscore", "backbone", "backbone.rails"
-  =javascript_include_tag "polymaps/polymaps.js", "polymaps-utils"
+#map
+#user-panel.panel
+  %li Welcome <strong>#{current_participant.full_name}</strong>
+  %li <a href="#">Your details</a>
+  %li <a href="#">Help</a>
+  %li #{link_to "Sign out", destroy_participant_session_path}
+#travel-panel.panel
+  #fixes-placard.placard
+    %span.number <img src="/images/ajax-loader.gif" alt="loading..." />
+    %span.title fixes
+  #trips-placard.placard
+    %span.number #{current_participant.trips.size}
+    %span.title trips
+  #activities-placard.placard
+    %span.number #{current_participant.activities.size}
+    %span.title activities
+#fixes-panel.panel
+  #devices-on-off-list
+  #fix-details
 
-%body
-  #map
-  #user-panel.panel
-    %li Welcome <strong>#{current_participant.full_name}</strong>
-    %li <a href="#">Your details</a>
-    %li <a href="#">Help</a>
-    %li #{link_to "Sign out", destroy_participant_session_path}
-  #travel-panel.panel
-    #fixes-placard.placard
-      %span.number <img src="/images/ajax-loader.gif" alt="loading..." />
-      %span.title fixes
-    #trips-placard.placard
-      %span.number ?
-      %span.title trips
-    #activities-placard.placard
-      %span.number ?
-      %span.title activities
-  #fixes-panel.panel
-    #devices-on-off-list
-    #fix-details
-    
-  :javascript
-    // http://www.elated.com/articles/working-with-dates/
-    var month_names = new Array ( );
-    month_names[month_names.length] = "January";
-    month_names[month_names.length] = "February";
-    month_names[month_names.length] = "March";
-    month_names[month_names.length] = "April";
-    month_names[month_names.length] = "May";
-    month_names[month_names.length] = "June";
-    month_names[month_names.length] = "July";
-    month_names[month_names.length] = "August";
-    month_names[month_names.length] = "September";
-    month_names[month_names.length] = "October";
-    month_names[month_names.length] = "November";
-    month_names[month_names.length] = "December";
-    
-    var day_names = new Array ( );
-    day_names[day_names.length] = "Sunday";
-    day_names[day_names.length] = "Monday";
-    day_names[day_names.length] = "Tuesday";
-    day_names[day_names.length] = "Wednesday";
-    day_names[day_names.length] = "Thursday";
-    day_names[day_names.length] = "Friday";
-    day_names[day_names.length] = "Saturday";
-    
-    function prettyDate(rawDate) {
-      var date = new Date(rawDate);
-      return day_names[date.getDay()] + ', ' + month_names[date.getMonth()] + ' ' + date.getDate() + ' ' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
+:javascript
+  // http://www.elated.com/articles/working-with-dates/
+  var month_names = new Array ( );
+  month_names[month_names.length] = "January";
+  month_names[month_names.length] = "February";
+  month_names[month_names.length] = "March";
+  month_names[month_names.length] = "April";
+  month_names[month_names.length] = "May";
+  month_names[month_names.length] = "June";
+  month_names[month_names.length] = "July";
+  month_names[month_names.length] = "August";
+  month_names[month_names.length] = "September";
+  month_names[month_names.length] = "October";
+  month_names[month_names.length] = "November";
+  month_names[month_names.length] = "December";
+
+  var day_names = new Array ( );
+  day_names[day_names.length] = "Sunday";
+  day_names[day_names.length] = "Monday";
+  day_names[day_names.length] = "Tuesday";
+  day_names[day_names.length] = "Wednesday";
+  day_names[day_names.length] = "Thursday";
+  day_names[day_names.length] = "Friday";
+  day_names[day_names.length] = "Saturday";
+
+  function prettyDate(rawDate) {
+    var date = new Date(rawDate);
+    return day_names[date.getDay()] + ', ' + month_names[date.getMonth()] + ' ' + date.getDate() + ' ' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
+  }
+
+:javascript
+  var po = org.polymaps;
+
+  var map = po.map()
+      .container(document.getElementById("map").appendChild(po.svg("svg")))
+      .add(po.interact())
+      .add(po.hash());
+
+  map.add(po.image()
+      .url(po.url("http://{S}tile.cloudmade.com"
+      + "/7edf224d2b714c238a8ed621091d63bc"
+      + "/998/256/{Z}/{X}/{Y}.png")
+      .hosts(["a.", "b.", "c.", ""])));
+
+  map.add(po.compass()
+      .pan("none"));
+
+      // http://raphaeljs.com/icons/
+  var icons = (function(po) {
+    return {
+      marker: function() {
+        var path = po.svg("path");
+        path.setAttribute("transform", "translate(-16,-28)");
+        path.setAttribute("d", "M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248");
+        return path;
+      }
+    };
+  })(org.polymaps);
+
+  var travelFixLayer;
+  function loadTravelFixes(e) {
+    for (var i = 0; i < e.features.length; i++) {
+      var f = e.features[i],
+          c = f.element,
+          g = f.element = po.svg("g");
+
+      /* fix icon */
+      g.appendChild(icons.marker());
+      g.setAttribute("transform", c.getAttribute("transform") + ", scale(0.8)");
+      c.parentNode.replaceChild(g, c);
+      f.element.setAttribute('id', 'fix-icon-' + f.data.id);
+      f.element.setAttribute('class', devices.get(travelFixes.get(f.data.id).get('device_id')).get('travelFixClass'));
+      f.element.appendChild(po.svg("id")
+       .appendChild(document.createTextNode(f.data.id))
+       .parentNode);
+
+       $(f.element).hover(function(event) {
+         id = $('id', event.currentTarget).text();
+         travelFixes.get(id).set({mouseover: true});
+       }, function(event) {
+         id = $('id', event.currentTarget).text();
+         travelFixes.get(id).set({mouseover: false});
+       });
     }
-    
-  :javascript
-    var po = org.polymaps;
-    
-    var map = po.map()
-        .container(document.getElementById("map").appendChild(po.svg("svg")))
-        .add(po.interact())
-        .add(po.hash());
-        
-    map.add(po.image()
-        .url(po.url("http://{S}tile.cloudmade.com"
-        + "/7edf224d2b714c238a8ed621091d63bc"
-        + "/998/256/{Z}/{X}/{Y}.png")
-        .hosts(["a.", "b.", "c.", ""])));
-        
-    map.add(po.compass()
-        .pan("none"));
-        
-        // http://raphaeljs.com/icons/
-    var icons = (function(po) {
-      return {
-        marker: function() {
-          var path = po.svg("path");
-          path.setAttribute("transform", "translate(-16,-28)");
-          path.setAttribute("d", "M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248");
-          return path;
-        }
-      };
-    })(org.polymaps);
-    
-    var travelFixLayer;
-    function loadTravelFixes(e) {
-      for (var i = 0; i < e.features.length; i++) {
-        var f = e.features[i],
-            c = f.element,
-            g = f.element = po.svg("g");
-      
-        /* fix icon */
-        g.appendChild(icons.marker());
-        g.setAttribute("transform", c.getAttribute("transform") + ", scale(0.8)");
-        c.parentNode.replaceChild(g, c);
-        f.element.setAttribute('id', 'fix-icon-' + f.data.id);
-        f.element.setAttribute('class', devices.get(travelFixes.get(f.data.id).get('device_id')).get('travelFixClass'));
-        f.element.appendChild(po.svg("id")
-         .appendChild(document.createTextNode(f.data.id))
-         .parentNode);
-       
-         $(f.element).hover(function(event) {
-           id = $('id', event.currentTarget).text();
-           travelFixes.get(id).set({mouseover: true});
-         }, function(event) {
-           id = $('id', event.currentTarget).text();
-           travelFixes.get(id).set({mouseover: false});
-         });
+  }
+
+:javascript
+  var deviceIds = [];
+  /* MODELS */
+  window.Participant = Backbone.Model.extend({
+    name: 'participant'
+  });
+  window.Device = Backbone.Model.extend({
+    name: 'device'
+  });
+  window.TravelFix = Backbone.Model.extend({
+    name: 'travel_fix',
+    initialize: function(args) {
+      this.maybeUnwrap(args); // see note at https://gist.github.com/719080
+      this.bind("change", function(m) {
+        if (console) console.log('fix-' + m.id + ': ' + JSON.stringify(m.changedAttributes()));
+      });
+    },
+  });
+
+  /* COLLECTIONS */
+  window.Participants = Backbone.Collection.extend({
+    model: Participant,
+    url: '/api/participants.json',
+    currentParticipant: function() {
+      return participants.find(function(p) { return p.get('is_current_participant'); });
+    }
+  });
+  window.Devices = Backbone.Collection.extend({
+    model: Device,
+    url: '/api/devices.json',
+    initialize: function() {
+      this.bind("refresh", function(m) {
+        travelFixes.fetch();
+
+        travelFixClasses = ['travel-fix-device-A', 'travel-fix-device-B', 'travel-fix-device-C', 'travel-fix-device-D', 'travel-fix-device-E'].reverse();
+        devices.each(function(d) {
+          d.set({travelFixClass: travelFixClasses.pop()});
+        });
+      });
+    }
+  });
+  window.TravelFixes = Backbone.Collection.extend({
+    model: TravelFix,
+    url: '/api/participants/#{current_participant.id}/travel_fixes.json',
+    load: function() {
+      deviceIds = _.uniq(travelFixes.pluck('device_id'));
+    },
+    geojson: function() {
+      var geojson = [];
+      _.each(travelFixes.models, function(l) {
+        geojson.push({
+          id: l.attributes.id,
+          geometry: {
+            type: "Point",
+            coordinates: [parseFloat(l.attributes.longitude), parseFloat(l.attributes.latitude)]
+          },
+          properties: {
+            // name: l.attributes.name
+          }
+        });
+      });
+      return geojson;
+    }
+  });
+
+  window.participants = new Participants;
+  window.devices = new Devices;
+  window.travelFixes = new TravelFixes;
+
+  /* VIEWS */
+  window.TravelFixesPlacard = Backbone.View.extend({
+    id: 'fixes-placard',
+    initialize: function() {
+      travelFixes.bind('refresh', this.render);
+      travelFixes.bind('change', this.change);
+    },
+    render: function() {
+      $('#fixes-placard .number').text(travelFixes.length);
+      if (travelFixes.length == 1) $('#fixes-placard .title').text('fix');
+      $('#fixes-placard').click(function(event) {
+        toggleFixesPanel();
+      });
+    },
+    change: function(m) {
+      if (m.changedAttributes().mouseover) toggleFixesPanel("show");
+    }
+  });
+  window.DeviceListItem = Backbone.View.extend({
+    tagName: 'li',
+    className: 'device-on-off-list-item',
+    template: _.template('<%= get("name") %>'),
+    initialize: function() {
+      travelFixes.bind('change', this.change);
+    },
+    render: function() {
+      $(this.el).attr('id', 'device-on-off-list-item-' + this.model.id);
+      $(this.el).html(this.template(this.model));
+      return this;
+    },
+    change: function(m) {
+      if (m.get('mouseover')) {
+        $('#device-on-off-list-item-' + m.get('device_id')).addClass('mouseover');
+      }
+      else {
+        $('#device-on-off-list-item-' + m.get('device_id')).removeClass('mouseover');
       }
     }
-    
-  :javascript
-    var deviceIds = [];
-    /* MODELS */
-    window.Participant = Backbone.Model.extend({
-      name: 'participant'
-    });
-    window.Device = Backbone.Model.extend({
-      name: 'device'
-    });
-    window.TravelFix = Backbone.Model.extend({
-      name: 'travel_fix',
-      initialize: function(args) {
-        this.maybeUnwrap(args); // see note at https://gist.github.com/719080
-        this.bind("change", function(m) {
-          if (console) console.log('fix-' + m.id + ': ' + JSON.stringify(m.changedAttributes()));
-        });
-      },
-    });
-    
-    /* COLLECTIONS */
-    window.Participants = Backbone.Collection.extend({
-      model: Participant,
-      url: '/api/participants.json',
-      currentParticipant: function() {
-        return participants.find(function(p) { return p.get('is_current_participant'); });
+  });
+  window.DeviceList = Backbone.View.extend({
+    initialize: function() {
+      devices.bind('refresh', this.render);
+    },
+    render: function() {
+      devices.each(function(device) {
+        var view = new DeviceListItem({model: device});
+        $("#devices-on-off-list").append(view.render().el);
+      });
+    }
+  });
+  window.TravelFixDetails = Backbone.View.extend({
+    initialize: function() {
+      travelFixes.bind('change', this.change);
+    },
+    change: function(m) {
+      var template = _.template('<p><%= prettyDate(get("created_at")) %><br/>'
+                                + 'speed: <%= get("speed") %><br/>'
+                                + 'accuracy: <%= get("accuracy") %> meters<br/>'
+                                + 'altitude: <%= get("altitude") %> meters</p>');
+
+      if (m.changedAttributes().mouseover == true) {
+        $('#fix-details').html(template(m));
       }
-    });
-    window.Devices = Backbone.Collection.extend({
-      model: Device,
-      url: '/api/devices.json',
-      initialize: function() {
-        this.bind("refresh", function(m) {
-          travelFixes.fetch();
-          
-          travelFixClasses = ['travel-fix-device-A', 'travel-fix-device-B', 'travel-fix-device-C', 'travel-fix-device-D', 'travel-fix-device-E'].reverse();
-          devices.each(function(d) {
-            d.set({travelFixClass: travelFixClasses.pop()});
-          });
-        });
+      else if (m.changedAttributes().mouseover == false) {
+        $('#fix-details').empty();
       }
-    });
-    window.TravelFixes = Backbone.Collection.extend({
-      model: TravelFix,
-      url: '/api/participants/#{current_participant.id}/travel_fixes.json',
-      load: function() {
-        deviceIds = _.uniq(travelFixes.pluck('device_id'));
-      },
-      geojson: function() {
-        var geojson = [];
-        _.each(travelFixes.models, function(l) {
-          geojson.push({ 
-            id: l.attributes.id,
-            geometry: {
-              type: "Point",
-              coordinates: [parseFloat(l.attributes.longitude), parseFloat(l.attributes.latitude)]
-            }, 
-            properties: {
-              // name: l.attributes.name
-            }
-          });
-        });
-        return geojson;
+    }
+  });
+  window.TravelFixLayerView = Backbone.View.extend({
+    initialize: function() {
+      travelFixes.bind('refresh', this.render);
+      travelFixes.bind('change', this.change);
+    },
+    render: function() {
+      if (travelFixLayer) map.remove(travelFixLayer);
+      travelFixLayer = po.geoJson()
+                         .features(travelFixes.geojson())
+                         .on("load", loadTravelFixes)
+                         .id("travel-fix-layer")
+                         .scale("fixed");
+      map.add(travelFixLayer);
+      map.extent(bounds(travelFixes.geojson())).zoomBy(-.1);
+    },
+    change: function(m) {
+      if (m.changedAttributes().mouseover == true) {
+        var fixLabel = po.svg('text');
+        $(fixLabel).attr('id', 'fix-label-' + m.id);
+        fixLabel.setAttribute('transform', 'scale(2.0) translate(8 -2)');
+        var date = new Date(m.get('created_at'));
+        $(fixLabel).text(day_names[date.getDay()] + ', ' + month_names[date.getMonth()] + ' ' + date.getDate() + ' ' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes());
+        $('#fix-icon-' + m.id).append(fixLabel);
       }
-    });
-    
-    window.participants = new Participants;
-    window.devices = new Devices;
-    window.travelFixes = new TravelFixes;
-    
-    /* VIEWS */
-    window.TravelFixesPlacard = Backbone.View.extend({
-      id: 'fixes-placard',
-      initialize: function() {
-        travelFixes.bind('refresh', this.render);
-        travelFixes.bind('change', this.change);
-      },
-      render: function() {
-        $('#fixes-placard .number').text(travelFixes.length);
-        if (travelFixes.length == 1) $('#fixes-placard .title').text('fix');
-        $('#fixes-placard').click(function(event) {
-          toggleFixesPanel();
-        });
-      },
-      change: function(m) {
-        if (m.changedAttributes().mouseover) toggleFixesPanel("show");
+      else if (m.changedAttributes().mouseover == false) {
+        $('#fix-label-' + m.id).remove();
       }
-    });
-    window.DeviceListItem = Backbone.View.extend({
-      tagName: 'li',
-      className: 'device-on-off-list-item',
-      template: _.template('<%= get("name") %>'),
-      initialize: function() {
-        travelFixes.bind('change', this.change);
-      },
-      render: function() {
-        $(this.el).attr('id', 'device-on-off-list-item-' + this.model.id);
-        $(this.el).html(this.template(this.model));
-        return this;
-      },
-      change: function(m) {
-        if (m.get('mouseover')) {
-          $('#device-on-off-list-item-' + m.get('device_id')).addClass('mouseover');
-        }
-        else {
-          $('#device-on-off-list-item-' + m.get('device_id')).removeClass('mouseover');
-        }
-      }
-    });
-    window.DeviceList = Backbone.View.extend({
-      initialize: function() {
-        devices.bind('refresh', this.render);
-      },
-      render: function() {
-        devices.each(function(device) {
-          var view = new DeviceListItem({model: device});
-          $("#devices-on-off-list").append(view.render().el);
-        });
-      }
-    });
-    window.TravelFixDetails = Backbone.View.extend({
-      initialize: function() {
-        travelFixes.bind('change', this.change);
-      },
-      change: function(m) {
-        var template = _.template('<p><%= prettyDate(get("created_at")) %><br/>'
-                                  + 'speed: <%= get("speed") %><br/>'
-                                  + 'accuracy: <%= get("accuracy") %> meters<br/>'
-                                  + 'altitude: <%= get("altitude") %> meters</p>');
-        
-        if (m.changedAttributes().mouseover == true) {
-          $('#fix-details').html(template(m));
-        }
-        else if (m.changedAttributes().mouseover == false) {
-          $('#fix-details').empty();
-        }
-      }
-    });
-    window.TravelFixLayerView = Backbone.View.extend({
-      initialize: function() {
-        travelFixes.bind('refresh', this.render);
-        travelFixes.bind('change', this.change);
-      },
-      render: function() {
-        if (travelFixLayer) map.remove(travelFixLayer);
-        travelFixLayer = po.geoJson()
-                           .features(travelFixes.geojson())
-                           .on("load", loadTravelFixes)
-                           .id("travel-fix-layer")
-                           .scale("fixed");
-        map.add(travelFixLayer);
-        map.extent(bounds(travelFixes.geojson())).zoomBy(-.1);
-      },
-      change: function(m) {
-        if (m.changedAttributes().mouseover == true) {
-          var fixLabel = po.svg('text');
-          $(fixLabel).attr('id', 'fix-label-' + m.id);
-          fixLabel.setAttribute('transform', 'scale(2.0) translate(8 -2)');
-          var date = new Date(m.get('created_at'));
-          $(fixLabel).text(day_names[date.getDay()] + ', ' + month_names[date.getMonth()] + ' ' + date.getDate() + ' ' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes());
-          $('#fix-icon-' + m.id).append(fixLabel);
-        }
-        else if (m.changedAttributes().mouseover == false) {
-          $('#fix-label-' + m.id).remove();
-        }
-      }
-    });
-    
-    window.travelFixesPlacard = new TravelFixesPlacard;
-    window.deviceList = new DeviceList;
-    window.travelFixDetails = new TravelFixDetails;
-    window.travelFixLayerView = new TravelFixLayerView;
-    
-    /* LOAD DATA */    
-    participants.fetch();
-    devices.fetch();
-    // travelFixes are only loaded after devices are loaded
-    
-    /* PANEL STUFF */
-    function toggleFixesPanel(showHide) {
-      if (!showHide) {
+    }
+  });
+
+  window.travelFixesPlacard = new TravelFixesPlacard;
+  window.deviceList = new DeviceList;
+  window.travelFixDetails = new TravelFixDetails;
+  window.travelFixLayerView = new TravelFixLayerView;
+
+  /* LOAD DATA */
+  participants.fetch();
+  devices.fetch();
+  // travelFixes are only loaded after devices are loaded
+
+  /* PANEL STUFF */
+  function toggleFixesPanel(showHide) {
+    if (!showHide) {
+      $('#fixes-panel').slideToggle();
+    } else if (showHide == "show") {
+      if ($('#fixes-panel').css('display') == 'none') {
         $('#fixes-panel').slideToggle();
-      } else if (showHide == "show") {
-        if ($('#fixes-panel').css('display') == 'none') { 
-          $('#fixes-panel').slideToggle();
-        }
-      } else if (showHide == "hide") {
-        if ($('#fixes-panel').css('display') != 'none') { 
-          $('#fixes-panel').slideToggle();
-        }
+      }
+    } else if (showHide == "hide") {
+      if ($('#fixes-panel').css('display') != 'none') {
+        $('#fixes-panel').slideToggle();
       }
     }
+  }

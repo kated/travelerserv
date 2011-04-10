@@ -8,6 +8,7 @@ capybara-*.html
 /vendor/bundle
 /log/*
 /tmp/pids/*.pid
+/tmp/sass*
 /db/*.sqlite3
 /db/*.sql
 /public/system/*
