@@ -18,7 +18,7 @@ module GeoTransServer
       #heading = data[7]
       altitude = data[8] #m
       accuracy = data[9] # Enduro accuracy is a qualitative measure; see @TRACK protocol manual p. 13
-      lon = data[10]
+      lon = 123.4 # data[10]
       lat = data[11]
       if lon != 0 and lat != 0 
         RestClient.post 'http://traveler.cocogeo.com/mobile/enduro/travel_fixes', 
