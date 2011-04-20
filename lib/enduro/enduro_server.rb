@@ -42,5 +42,5 @@ module GeoTransServer
 end
 
 EventMachine::run {
-  EventMachine::open_datagram_socket('geogremlin.geog.ucsb.edu', 3000, GeoTransServer)
+  EventMachine::open_datagram_socket('geogremlin.geog.ucsb.edu', 3001, GeoTransServer)
 }
