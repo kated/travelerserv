@@ -10,15 +10,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 5) do
+ActiveRecord::Schema.define(:version => 7) do
 
   create_table "activities", :force => true do |t|
-    t.integer  "participant_id"
-    t.datetime "start"
-    t.datetime "stop"
+    t.integer "participant_id"
   end
 
   add_index "activities", ["participant_id"], :name => "index_activities_on_participant_id"
+
+  create_table "activties_trips", :id => false, :force => true do |t|
+    t.integer "activity_id"
+    t.integer "trip_id"
+  end
 
   create_table "administrators", :force => true do |t|
     t.string   "first_name"
@@ -306,17 +309,19 @@ ActiveRecord::Schema.define(:version => 5) do
 
   create_table "travel_fixes", :force => true do |t|
     t.integer  "participant_id"
-    t.decimal  "latitude",           :precision => 15, :scale => 10
-    t.decimal  "longitude",          :precision => 15, :scale => 10
-    t.decimal  "altitude",           :precision => 8,  :scale => 2
-    t.decimal  "speed",              :precision => 5,  :scale => 2
-    t.decimal  "accuracy",           :precision => 5,  :scale => 2
+    t.decimal  "latitude",                         :precision => 15, :scale => 10
+    t.decimal  "longitude",                        :precision => 15, :scale => 10
+    t.decimal  "altitude",                         :precision => 8,  :scale => 2
+    t.decimal  "speed",                            :precision => 5,  :scale => 2
+    t.decimal  "accuracy",                         :precision => 5,  :scale => 2
     t.integer  "device_id"
     t.string   "positioning_method"
     t.datetime "datetime"
     t.boolean  "clean"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parent_id"
+    t.string   "parent_type",        :limit => 32
   end
 
   add_index "travel_fixes", ["device_id"], :name => "index_travel_fixes_on_device_id"
@@ -324,16 +329,31 @@ ActiveRecord::Schema.define(:version => 5) do
 
   create_table "trips", :force => true do |t|
     t.integer  "participant_id"
-    t.integer  "start_travel_fix_id"
-    t.integer  "end_travel_fix_id"
     t.string   "travel_mode"
     t.string   "travel_mode_specified_by"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "trips", ["end_travel_fix_id"], :name => "index_trips_on_end_travel_fix_id"
   add_index "trips", ["participant_id"], :name => "index_trips_on_participant_id"
-  add_index "trips", ["start_travel_fix_id"], :name => "index_trips_on_start_travel_fix_id"
+
+  create_table "users", :force => true do |t|
+    t.string   "email",                               :default => "", :null => false
+    t.string   "encrypted_password",   :limit => 128, :default => "", :null => false
+    t.string   "password_salt",                       :default => "", :null => false
+    t.string   "reset_password_token"
+    t.string   "remember_token"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                       :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
 end
