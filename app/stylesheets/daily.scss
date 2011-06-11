@@ -1,0 +1,25 @@
+ul.trips-or-activities li {
+    overflow: hidden;
+    line-height: 1.6em;
+    padding: 2px;
+
+    .questionnaire-status {
+        /*display: block;*/
+        /*float: right;*/
+        padding: 3px;
+        line-height: 1.3em;
+        border: 1px solid black;
+
+        &.incomplete {
+            background-color: #ffb6c1;
+        }
+    }
+}
+
+.complete {
+    color: #006400;
+}
+
+.incomplete {
+    color: #8b0000;
+}

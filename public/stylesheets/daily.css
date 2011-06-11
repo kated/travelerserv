@@ -1,0 +1,28 @@
+/* line 1, ../../app/stylesheets/daily.scss */
+ul.trips-or-activities li {
+  overflow: hidden;
+  line-height: 1.6em;
+  padding: 2px;
+}
+/* line 6, ../../app/stylesheets/daily.scss */
+ul.trips-or-activities li .questionnaire-status {
+  /*display: block;*/
+  /*float: right;*/
+  padding: 3px;
+  line-height: 1.3em;
+  border: 1px solid black;
+}
+/* line 13, ../../app/stylesheets/daily.scss */
+ul.trips-or-activities li .questionnaire-status.incomplete {
+  background-color: #ffb6c1;
+}
+
+/* line 19, ../../app/stylesheets/daily.scss */
+.complete {
+  color: #006400;
+}
+
+/* line 23, ../../app/stylesheets/daily.scss */
+.incomplete {
+  color: #8b0000;
+}

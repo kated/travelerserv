@@ -9,7 +9,7 @@ development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: travelerserv_development
+  database: travelerserv_development2
   pool: 5
   username: root
   password:

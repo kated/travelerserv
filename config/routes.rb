@@ -34,9 +34,17 @@ Travelerserv::Application.routes.draw do
   end
   
   namespace :participant do
-    root :to => 'site#dashboard'
+#    root :to => 'site#dashboard'
+    root :to => 'daily#show'
     resource :daily, :only => :show, :controller => "daily"
+    resources :activities do
+      resource :questionnaire_record, :only => [:new, :create]
+    end
+    resources :trip do
+      resource :questionnaire_record, :only => [:new, :create]
+    end
   end
   
-  root :to => 'participant/site#dashboard'
+#  root :to => 'participant/site#dashboard'
+  root :to => 'participant/daily#show'
 end

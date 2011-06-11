@@ -1,13 +1,26 @@
 %h1 Your trips and activities by day
 
 %ul.days
-  - @trips_by_day.each do |day, trips|
+  - @trips_and_activities_by_day.each do |day, trips_and_acts|
     %li
-      %h3=day
-      %ul.trips
-        - trips.each do |trip|
-          %li
-            == #{trip.travel_fixes.size} fixes
-            == from #{trip.start_travel_fix.datetime.to_s(:short)} to #{trip.end_travel_fix.datetime.to_s(:short)}
+      %h3=day.strftime("%a %b %d")
+      %ul.trips-or-activities
+        - trips_and_acts.each do |trip_or_act|
+          %li{:class => trip_or_act.class.name.underscore}
+            =trip_or_act.class
+            =trip_or_act.id
+            ,
+            =trip_or_act.travel_fixes.size
+            fixes
+            from
+            =trip_or_act.first_fix_time.try(:strftime, "%H:%M")
+            to
+            =trip_or_act.last_fix_time.try(:strftime, "%H:%M")
+            - if trip_or_act.questionnaire_record
+              - link_to(polymorphic_path([:participant, trip_or_act, :questionnaire_record], :action => :edit), :class => 'questionnaire-status complete') do
+                Questionnaire Completed
+            - else
+              - link_to(polymorphic_path([:participant, trip_or_act, :questionnaire_record], :action => :new), :class => 'questionnaire-status incomplete') do
+                Questionnaire Incomplete
 
 
