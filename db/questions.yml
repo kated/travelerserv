@@ -1,0 +1,23 @@
+Trip:
+# REQUIRED keys are: key, type, and question
+- key: conveyance
+  type: MultipleChoice
+  question: How did you get from place to place?
+  answer_choices:
+  - Limitless power of the imagination
+  - Put one foot in from of the other
+  - Disaparated/floo powder
+  - Bridge to transporter room, 3 to beam up
+
+- key: howfeel
+  type: StringAnswer
+  question: And how does that make you feel?
+
+- key: swallow
+  type: DecimalAnswer
+  question: What is the airspeed velocity of an unladen swallow?
+
+- oneandten:
+  key: oneandten
+  type: IntegerAnswer
+  question: Pick a number between 1 and 10.

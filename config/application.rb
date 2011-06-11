@@ -42,5 +42,9 @@ module Travelerserv
     config.active_record.timestamped_migrations = false
     
     config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+    config.after_initialize do
+      ::QUESTIONS = YAML.load(File.read(Rails.root.join('db', 'questions.yml')))
+    end
   end
 end

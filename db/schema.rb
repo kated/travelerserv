@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 7) do
+ActiveRecord::Schema.define(:version => 8) do
 
   create_table "activities", :force => true do |t|
     t.integer "participant_id"
@@ -234,6 +234,8 @@ ActiveRecord::Schema.define(:version => 7) do
     t.integer  "image_file_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "question"
+    t.string   "question_key"
   end
 
   add_index "questionnaire_record_fields", ["image_file_id"], :name => "index_questionnaire_record_fields_on_image_file_id"
