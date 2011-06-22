@@ -30,16 +30,16 @@
 		mysql_connect("localhost", "enduro3001", "3nduro3001") or die(ErrorLog(mysql_error()));
 		mysql_select_db("travelerserv_production") or die(ErrorLog(mysql_error()));
 		$query1 = "SELECT id, participant_id FROM devices WHERE identification='".$aEnduro[1]."'";
-
+		
 		$result = mysql_query($query1) or die(ErrorLog(mysql_error()));  // ideally this would be a stored proc
 		$row = mysql_fetch_array( $result );
-	
+		
 		$device_id = $row['id'];
 		$participant_id = $row['participant_id'];
 		
 		$query = "INSERT into travel_fixes (participant_id, latitude, longitude, altitude, speed, accuracy, device_id, positioning_method, created_at, updated_at) VALUES ";
 		$query .= "(".$participant_id.",".$aEnduro[11].",".$aEnduro[10].",".$aEnduro[8].",".$aEnduro[6].",".$aEnduro[9].",".$device_id.",'".$dev."','".formatDate($aEnduro[12])."','".formatDate($aEnduro[12])."')";
-
+		
 		mysql_query($query) or die(ErrorLog(mysql_error()));
 		mysql_free_result($result);
 		mysql_close();	// clean up your damn mess
@@ -60,7 +60,19 @@
 		mysql_query($query) or die(ErrorLog(mysql_error()));
 		mysql_free_result($result);
 		mysql_close();	// clean up your damn mess
-		geoCode($lat, $lon);
+		
+		// send email
+	    $to = "grantdmckenzie@gmail.com";
+	    $subject = "GeoGremlin found you!";
+		$body = "The results from your recent activity at ".$lat.", ".$lon.":\n\n";
+
+		$body .= geoCode($lat, $lon);
+		$body .= geoCode2($lat, $lon);
+		if (mail($to, $subject, $body)) {
+			// echo("<p>Message successfully sent!</p>");
+		} else {
+			ErrorLog("Message delivery failed");
+		}
 	}
 	function geoCode($latitude, $longitude) {
 	   $geocodeURL = "https://maps.googleapis.com/maps/api/place/search/xml?location=".$latitude.",".$longitude."&radius=500&sensor=false&key=AIzaSyAdstnf_J0wjHZAJZLTItVrO7qQDzgHAYI";
@@ -69,11 +81,12 @@
 	   $result = curl_exec($ch);
 	   $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 	   curl_close($ch);
-	   $line = "";
+	   $line = "GOOGLE " . date('l jS \of F Y h:i:s A') . "\n-------------------\n";
 	   
-	   $myFile = "activity.log";
+	   /* $myFile = "activity.log";
 	   $fh = fopen($myFile, 'a') or die("can't open file");
-			
+	    fwrite($fh, "GOOGLE " . date('l jS \of F Y h:i:s A') . "\n");
+	   fwrite($fh, "----------------------\n"); */
 	   if ($httpCode == 200) {
 	   	  $doc = new SimpleXmlElement($result, LIBXML_NOCDATA);
 	   	  $cnt = count($doc->result);
@@ -91,8 +104,40 @@
 	   } else {
 	     $line = "HTTP_FAIL_$httpCode";
 	   }
-	   fwrite($fh, $line);
-	   fclose($fh);
+	   return $line;
+	   /* fwrite($fh, $line);
+	   fclose($fh); */
+	}
+	
+	function geoCode2($latitude, $longitude) {
+	   $geocodeURL = "http://api.geonames.org/findNearby?lat=".$latitude."&lng=".$longitude."&radius=0.5&username=grantdmckenzie&maxRows=10";
+	   $ch = curl_init($geocodeURL);
+	   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	   $result = curl_exec($ch);
+	   $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	   curl_close($ch);
+	   $line = "";
+	   
+	   /* $myFile = "activity.log";
+	   $fh = fopen($myFile, 'a') or die("can't open file");
+	   fwrite($fh, "GEONAMES " . date('l jS \of F Y h:i:s A') . "\n");
+	   fwrite($fh, "----------------------\n"); */
+	   if ($httpCode == 200) {
+	   	  $doc = new SimpleXmlElement($result, LIBXML_NOCDATA);
+	   	  $cnt = count($doc->geoname);
+	   	  if ($cnt >= 10) 
+	   	  	$cnt = 10;
+	   	  for ($i=0;$i<$cnt;$i++) {
+	   	  		$viscount = $i+1;
+	   	  		$line .= $viscount . ". " . $doc->geoname[$i]->name . " (";
+	   	  		$line .= $doc->geoname[$i]->fcode . ")\n";
+	   	  }
+	   } else {
+	     $line = "HTTP_FAIL_$httpCode";
+	   }
+	   return $line;
+	   /* fwrite($fh, $line);
+	   fclose($fh); */
 	}
 	
 	function spitItOut($aEnduro) {
