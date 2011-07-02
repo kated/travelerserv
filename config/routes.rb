@@ -38,10 +38,10 @@ Travelerserv::Application.routes.draw do
     root :to => 'daily#show'
     resource :daily, :only => :show, :controller => "daily"
     resources :activities do
-      resource :questionnaire_record, :only => [:new, :create]
+      resource :questionnaire_record, :only => [:new, :create, :edit, :update]
     end
     resources :trip do
-      resource :questionnaire_record, :only => [:new, :create]
+      resource :questionnaire_record, :only => [:new, :create, :edit, :update]
     end
   end
   

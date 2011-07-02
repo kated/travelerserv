@@ -14,6 +14,7 @@ capybara-*.html
 /public/system/*
 /coverage/
 /spec/tmp/*
+/tmp/restart.txt
 **.orig
 config/*.yml
 rerun.txt

@@ -12,7 +12,7 @@ development:
   database: travelerserv_development2
   pool: 5
   username: root
-  password:
+  password: password
   host: localhost
 
 # Warning: The database defined as "test" will be erased and
