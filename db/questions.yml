@@ -21,3 +21,8 @@ Trip:
   key: oneandten
   type: IntegerAnswer
   question: Pick a number between 1 and 10.
+
+Activity:
+- key: rock
+  type: StringAnswer
+  question: What's the difference between a rock?

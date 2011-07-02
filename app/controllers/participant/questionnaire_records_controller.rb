@@ -8,7 +8,9 @@ class Participant::QuestionnaireRecordsController < Participant::BaseController
     @questionnaire_record = @parent.build_questionnaire_record(params[:question_record])
     @questionnaire_record.participant = current_participant
     if @questionnaire_record.save
-
+      redirect_to root_path
+    else
+      render :action => "new"
     end
   end
 
