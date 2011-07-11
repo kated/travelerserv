@@ -46,7 +46,8 @@
 		$query .= "(".$participant_id.",".$alat.",".$alon.",'".$times."')";
 		
 		mysql_query($query) or die(ErrorLog(mysql_error()));
-		echo mysql_insert_id();
+		echo mysql_insert_id() . "\n";
+		echo geoNames($alat, $alon);
 		mysql_free_result($result);
 	} else {
 		$query = "UPDATE activities SET end = '".$times."' WHERE id = ".$id;
@@ -56,4 +57,29 @@
 	}
 	mysql_close();	// clean up your damn mess
 
+
+	function geoNames($latitude, $longitude) {
+	   $geocodeURL = "http://api.geonames.org/findNearby?lat=".$latitude."&lng=".$longitude."&radius=0.5&username=grantdmckenzie&maxRows=10";
+	   $ch = curl_init($geocodeURL);
+	   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	   $result = curl_exec($ch);
+	   $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	   curl_close($ch);
+	   $line = "";
+	   
+	   if ($httpCode == 200) {
+	   	  $doc = new SimpleXmlElement($result, LIBXML_NOCDATA);
+	   	  $cnt = count($doc->geoname);
+	   	  if ($cnt >= 10) 
+	   	  	$cnt = 10;
+	   	  for ($i=0;$i<$cnt;$i++) {
+	   	  		$viscount = $i+1;
+	   	  		$line .= $viscount . ". " . $doc->geoname[$i]->name . " (";
+	   	  		$line .= $doc->geoname[$i]->fcode . ")\n";
+	   	  }
+	   } else {
+	     $line = "HTTP_FAIL_$httpCode";
+	   }
+	   return $line;
+	}
 ?>
