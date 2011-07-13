@@ -73,8 +73,7 @@
 	   	  if ($cnt >= 10) 
 	   	  	$cnt = 10;
 	   	  for ($i=0;$i<$cnt;$i++) {
-	   	  		$viscount = $i+1;
-	   	  		$line .= $viscount . ". " . $doc->geoname[$i]->name . " (";
+	   	  		$line .= $doc->geoname[$i]->name . " (";
 	   	  		$line .= $doc->geoname[$i]->fcode . ")\n";
 	   	  }
 	   } else {
