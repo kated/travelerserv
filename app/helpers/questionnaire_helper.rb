@@ -1,5 +1,5 @@
 module QuestionnaireHelper
-  def new_questionnaire_for(parent)
+  def questionnaire_for(parent)
     questions = ::QUESTIONS[parent.class.name]
     form_for @questionnaire_record, :url => polymorphic_path([:participant, parent, :questionnaire_record]) do |form|
       content_tag :ul, :class => 'questions' do

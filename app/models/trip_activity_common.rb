@@ -4,13 +4,28 @@ module TripActivityCommon
       include InstanceMethods
       extend ClassMethods
 
-      has_many :travel_fixes, :order => "id ASC", :as => :parent
+      has_many :travel_fixes, :order => "id ASC", :as => :parent do
+        def geo_json_line
+          collect do |fix|
+            [fix.longitude.to_f, fix.latitude.to_f]
+          end
+        end
+      end
+      has_many :questionnaire_records, :as => :subject
       belongs_to :participant
-      has_one :questionnaire_record
+      has_one :questionnaire_record, :as => :subject
     end
   end
 
   module InstanceMethods
+    def top_left
+      [travel_fixes.maximum(:latitude), travel_fixes.minimum(:longitude)]
+    end
+
+    def bottom_right
+      [travel_fixes.minimum(:latitude), travel_fixes.maximum(:longitude)]
+    end
+
     def first_fix_time
       travel_fixes.first.try(:datetime)
     end

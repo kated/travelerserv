@@ -1,0 +1,30 @@
+%h3 Map
+#map{:style => "height: 300px; position: relative;"}
+= javascript_include_tag "travelerserv/polymaps.js"
+:javascript
+  var featuresLayer = po.geoJson();
+  var features = [];
+  var stylist = po.stylist();
+  stylist.attr('stroke', function(d) { console.log(d); return 'red'; });
+
+  features.push({
+      "type": "Feature",
+      "geometry": {"type": "LineString", "coordinates": #{@parent.travel_fixes.geo_json_line.to_json}},
+      "properties": {}
+    });
+
+  features.push({
+      "type": "Feature",
+      "geometry": {"type": "MultiPoint", "coordinates": #{@parent.travel_fixes.geo_json_line.to_json}},
+      "properties": {}
+    });
+
+  featuresLayer.features(features);
+  console.debug(featuresLayer.container());
+  featuresLayer.id('travel-fixes');
+  map.add(featuresLayer);
+  map.centerRange(
+    [{lat: #{@parent.top_left[0]}, lon: #{@parent.top_left[1]}},
+    {lat: #{@parent.bottom_right[0]}, lon: #{@parent.bottom_right[1]}}]
+  );
+

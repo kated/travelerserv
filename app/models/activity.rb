@@ -1,7 +1,6 @@
 class Activity < ActiveRecord::Base
   include TripActivityCommon
   belongs_to :participant
-  has_many :questionnaire_records
 
   def self.and_trips_by_day(trip_scope = Trip, activity_scope = Activity)
     (trip_scope.all + activity_scope.all).

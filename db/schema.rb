@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 8) do
+ActiveRecord::Schema.define(:version => 9) do
 
   create_table "activities", :force => true do |t|
     t.integer "participant_id"
@@ -251,8 +251,8 @@ ActiveRecord::Schema.define(:version => 8) do
     t.datetime "filed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "activity_id"
-    t.integer  "trip_id"
+    t.integer  "subject_id"
+    t.string   "subject_type"
   end
 
   add_index "questionnaire_records", ["participant_id"], :name => "index_questionnaire_records_on_participant_id"

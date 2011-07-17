@@ -1,4 +1,5 @@
 %h1
   == Please answer some questions about the #{@parent.class} you completed
 
-= new_questionnaire_for(@parent)
+= render :partial => @parent.class.name.underscore
+= questionnaire_for(@parent)
