@@ -6,41 +6,36 @@
 	Project: travelerserv
 	Description: Functions file for the enduro_server.php script
 	==================================================================================== */
-	
+	error_reporting(E_ALL);
+	ini_set('display_errors','On');
 	// Send enduro array values to the database
-	function DBAddFix($aEnduro, $dev) {
-		/* $myFile = "enduroTest.txt";
-		$fh = fopen($myFile, 'a') or die("can't open file");
-		fwrite($fh, $aEnduro[1].",");
-		fwrite($fh, $aEnduro[6].",");
-		fwrite($fh, $aEnduro[8].",");
-		fwrite($fh, $aEnduro[9].",");
-		fwrite($fh, $aEnduro[10].",");
-		fwrite($fh, $aEnduro[11].",");
-		fwrite($fh, formatDate($aEnduro[12])."\n");
-		fclose($fh); */
-		/*echo $aEnduro[1] . ", ";						// imei (device id)
-		echo $aEnduro[6] . ", ";						// speed
-		echo $aEnduro[8] . ", ";						// altitude (m)
-		echo $aEnduro[9] . ", ";						// accuracy
-		echo $aEnduro[10] . ", ";						// lon
-		echo $aEnduro[11] . ",";						// lat
-		echo formatDate($aEnduro[12]) . "\n";			// date */
+	function DBAddFix($aEnduro, $dev, $newtrip) {
 		
 		mysql_connect("localhost", "enduro3001", "3nduro3001") or die(ErrorLog(mysql_error()));
 		mysql_select_db("travelerserv_production") or die(ErrorLog(mysql_error()));
-		$query1 = "SELECT id, participant_id FROM devices WHERE identification='".$aEnduro[1]."'";
 		
+		$query1 = "SELECT id, participant_id FROM devices WHERE identification='".$aEnduro[1]."'";
 		$result = mysql_query($query1) or die(ErrorLog(mysql_error()));  // ideally this would be a stored proc
-		$row = mysql_fetch_array( $result );
+		$row = mysql_fetch_array($result);
 		
 		$device_id = $row['id'];
 		$participant_id = $row['participant_id'];
 		
-		$query = "INSERT into travel_fixes (participant_id, latitude, longitude, altitude, speed, accuracy, device_id, positioning_method, created_at, updated_at) VALUES ";
-		$query .= "(".$participant_id.",".$aEnduro[11].",".$aEnduro[10].",".$aEnduro[8].",".$aEnduro[6].",".$aEnduro[9].",".$device_id.",'".$dev."','".formatDate($aEnduro[12])."','".formatDate($aEnduro[12])."')";
+		if ($newtrip) {
+			$query2 = "INSERT into trips (participant_id, created_at) VALUES (".$participant_id.",'".formatDate($aEnduro[12])."')";
+			mysql_query($query2) or die(ErrorLog(mysql_error()));
+			$tripid = mysql_insert_id();
+		} else {
+			$query2 = "SELECT max(id) as id FROM trips WHERE participant_id = ".$participant_id;
+			$result2 = mysql_query($query2) or die(ErrorLog(mysql_error()));  // ideally this would be a stored proc
+			$row2 = mysql_fetch_array($result2);
+			$tripid = $row['id'];
+		}
 		
-		mysql_query($query) or die(ErrorLog(mysql_error()));
+		$query3 = "INSERT into travel_fixes (participant_id, latitude, longitude, altitude, speed, accuracy, device_id, positioning_method, created_at, updated_at, parent_id) VALUES ";
+		$query3 .= "(".$participant_id.",".$aEnduro[11].",".$aEnduro[10].",".$aEnduro[8].",".$aEnduro[6].",".$aEnduro[9].",".$device_id.",'".$dev."','".formatDate($aEnduro[12])."','".formatDate($aEnduro[12])."',".$tripid.")";
+		
+		mysql_query($query3) or die(ErrorLog(mysql_error()));
 		mysql_free_result($result);
 		mysql_close();	// clean up your damn mess
 	}
@@ -60,20 +55,8 @@
 		mysql_query($query) or die(ErrorLog(mysql_error()));
 		mysql_free_result($result);
 		mysql_close();	// clean up your damn mess
-		
-		// send email
-	    $to = "grantdmckenzie@gmail.com";
-	    $subject = "GeoGremlin found you!";
-		$body = "The results from your recent activity at ".$lat.", ".$lon.":\n\n";
-
-		$body .= geoCode($lat, $lon);
-		$body .= geoCode2($lat, $lon);
-		if (mail($to, $subject, $body)) {
-			// echo("<p>Message successfully sent!</p>");
-		} else {
-			ErrorLog("Message delivery failed");
-		}
 	}
+	
 	function geoCode($latitude, $longitude) {
 	   $geocodeURL = "https://maps.googleapis.com/maps/api/place/search/xml?location=".$latitude.",".$longitude."&radius=500&sensor=false&key=AIzaSyAdstnf_J0wjHZAJZLTItVrO7qQDzgHAYI";
 	   $ch = curl_init($geocodeURL);
@@ -138,6 +121,29 @@
 	   return $line;
 	   /* fwrite($fh, $line);
 	   fclose($fh); */
+	}
+	function geoCode3($latitude, $longitude) {
+	   $geocodeURL = "https://api.foursquare.com/v2/venues/search?ll=".$latitude.",".$longitude."&oauth_token=5ZKJSP5O1T01HO0EMVYYX52245QZIGTZELIQRVNYCGYOOR21&v=20110803";
+	   $ch = curl_init($geocodeURL);
+	   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	   $result = curl_exec($ch);
+	   $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	   curl_close($ch);
+	   $line = "";
+	   
+	   if ($httpCode == 200) {
+	   		$obj = json_decode($result);
+	   		for($i=0;$i<count($obj->response->venues);$i++) {
+	   			$line .= $obj->response->venues[$i]->name . " ";
+	   			for($j=0;$j<count($obj->response->venues[$i]->categories);$j++) {
+	   				$line .= "(" . $obj->response->venues[$i]->categories[$j]->name . ")";
+	   			}
+	   			$line .= "\n";
+	   		}
+	   } else {
+	     $line = "HTTP_FAIL_$httpCode";
+	   }
+	   return $line;
 	}
 	
 	function spitItOut($aEnduro) {
@@ -222,5 +228,16 @@
 		fwrite($fh, $msg);
 		fclose($fh);
 	}
+	
+	function json_decode($content, $assoc=false) {
+        require_once 'JSON.php';
+        if ($assoc) {
+            $json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
+        }
+        else {
+            $json = new Services_JSON;
+        }
+        return $json->decode($content);
+    }
 
 ?>

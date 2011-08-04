@@ -47,7 +47,8 @@
 		
 		mysql_query($query) or die(ErrorLog(mysql_error()));
 		echo mysql_insert_id() . "\n";
-		echo geoNames($alat, $alon);
+		// echo geoNames($alat, $alon);
+		echo foursquare($alat, $alon);
 		mysql_free_result($result);
 	} else {
 		$query = "UPDATE activities SET end = '".$times."' WHERE id = ".$id;
@@ -76,6 +77,29 @@
 	   	  		$line .= $doc->geoname[$i]->name . " (";
 	   	  		$line .= $doc->geoname[$i]->fcode . ")\n";
 	   	  }
+	   } else {
+	     $line = "HTTP_FAIL_$httpCode";
+	   }
+	   return $line;
+	}
+	function foursquare($latitude, $longitude) {
+	   $geocodeURL = "https://api.foursquare.com/v2/venues/search?ll=".$latitude.",".$longitude."&oauth_token=5ZKJSP5O1T01HO0EMVYYX52245QZIGTZELIQRVNYCGYOOR21&v=20110803";
+	   $ch = curl_init($geocodeURL);
+	   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	   $result = curl_exec($ch);
+	   $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	   curl_close($ch);
+	   $line = "";
+	   
+	   if ($httpCode == 200) {
+	   		$obj = json_decode($result);
+	   		for($i=0;$i<count($obj->response->venues);$i++) {
+	   			$line .= $obj->response->venues[$i]->name . " ";
+	   			for($j=0;$j<count($obj->response->venues[$i]->categories);$j++) {
+	   				$line .= "(" . $obj->response->venues[$i]->categories[$j]->name . ")";
+	   			}
+	   			$line .= "\n";
+	   		}
 	   } else {
 	     $line = "HTTP_FAIL_$httpCode";
 	   }
