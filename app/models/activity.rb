@@ -6,7 +6,15 @@ class Activity < ActiveRecord::Base
     (trip_scope.all + activity_scope.all).
         reject{|o| o.first_fix_time.nil?}.
         sort_by(&:first_fix_time).
-        group_by{|t| t.travel_fixes.first.try(:datetime).try(:to_date) }
+        group_by{|t| t.first_fix_time.try(:to_date) }
+  end
+
+  def first_fix_time
+    self.start
+  end
+
+  def last_fix_time
+    self.end
   end
 
 end
