@@ -21,6 +21,7 @@
 	
 	if ($aEnduro[10] != 0 and $aEnduro[11] != 0) {	// and it has a valid lat/lon
 		DBAddFix($aEnduro, 'Android', $newtrip);		// send it to the database
+		// ErrorLog($times." - ".$newtrip."\n");
 	}
 	
 ?>

@@ -21,7 +21,7 @@
 		$device_id = $row['id'];
 		$participant_id = $row['participant_id'];
 		
-		if ($newtrip) {
+		if ($newtrip == "true") {
 			$query2 = "INSERT into trips (participant_id, created_at) VALUES (".$participant_id.",'".formatDate($aEnduro[12])."')";
 			mysql_query($query2) or die(ErrorLog(mysql_error()));
 			$tripid = mysql_insert_id();
@@ -29,14 +29,15 @@
 			$query2 = "SELECT max(id) as id FROM trips WHERE participant_id = ".$participant_id;
 			$result2 = mysql_query($query2) or die(ErrorLog(mysql_error()));  // ideally this would be a stored proc
 			$row2 = mysql_fetch_array($result2);
-			$tripid = $row['id'];
+			$tripid = $row2['id'];
 		}
 		
-		$query3 = "INSERT into travel_fixes (participant_id, latitude, longitude, altitude, speed, accuracy, device_id, positioning_method, created_at, updated_at, parent_id) VALUES ";
-		$query3 .= "(".$participant_id.",".$aEnduro[11].",".$aEnduro[10].",".$aEnduro[8].",".$aEnduro[6].",".$aEnduro[9].",".$device_id.",'".$dev."','".formatDate($aEnduro[12])."','".formatDate($aEnduro[12])."',".$tripid.")";
+		$query3 = "INSERT into travel_fixes (participant_id, latitude, longitude, altitude, speed, accuracy, device_id, positioning_method, created_at, updated_at, parent_id, parent_type) VALUES ";
+		$query3 .= "(".$participant_id.",".$aEnduro[11].",".$aEnduro[10].",".$aEnduro[8].",".$aEnduro[6].",".$aEnduro[9].",".$device_id.",'".$dev."','".formatDate($aEnduro[12])."','".formatDate($aEnduro[12])."',".$tripid.",'trip')";
 		
 		mysql_query($query3) or die(ErrorLog(mysql_error()));
 		mysql_free_result($result);
+		mysql_free_result($result2);
 		mysql_close();	// clean up your damn mess
 	}
 	

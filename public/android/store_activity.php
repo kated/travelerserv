@@ -46,9 +46,19 @@
 		$query .= "(".$participant_id.",".$alat.",".$alon.",'".$times."')";
 		
 		mysql_query($query) or die(ErrorLog(mysql_error()));
-		echo mysql_insert_id() . "\n";
+		$actID = mysql_insert_id();
+		echo $actID . "\n";
 		// echo geoNames($alat, $alon);
+	
 		echo foursquare($alat, $alon);
+		
+		$aEnduro = array("",$devid,"","","","",-9,"",-9,1,floatval($alon),floatval($alat),$times); 
+		$query3 = "INSERT into travel_fixes (participant_id, latitude, longitude, altitude, speed, accuracy, device_id, positioning_method, created_at, updated_at, parent_id, parent_type) VALUES ";
+		$query3 .= "(".$participant_id.",".$aEnduro[11].",".$aEnduro[10].",".$aEnduro[8].",".$aEnduro[6].",".$aEnduro[9].",".$device_id.",'Android','".formatDate($aEnduro[12])."','".formatDate($aEnduro[12])."',".$actID.",'activity')";
+		
+		mysql_query($query3) or die(ErrorLog(mysql_error()));
+		
+		
 		mysql_free_result($result);
 	} else {
 		$query = "UPDATE activities SET end = '".$times."' WHERE id = ".$id;
