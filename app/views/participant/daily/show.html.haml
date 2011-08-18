@@ -1,4 +1,4 @@
-%h1 Your trips and activities by day
+%h1== Your trips and activities on #{@date}
 
 %ul.days
   - @trips_and_activities_by_day.each do |day, trips_and_acts|
@@ -16,11 +16,16 @@
             =trip_or_act.first_fix_time.try(:strftime, "%H:%M")
             to
             =trip_or_act.last_fix_time.try(:strftime, "%H:%M")
-            - if trip_or_act.questionnaire_record
-              - link_to(polymorphic_path([:participant, trip_or_act, :questionnaire_record], :action => :edit), :class => 'questionnaire-status complete') do
-                Questionnaire Completed
+            - if trip_or_act.confirmed?
+              - if trip_or_act.questionnaire_record
+                - link_to(polymorphic_path([:participant, trip_or_act, :questionnaire_record], :action => :edit), :class => 'questionnaire-status complete') do
+                  Questionnaire Completed
+              - else
+                - link_to(polymorphic_path([:participant, trip_or_act, :questionnaire_record], :action => :new), :class => 'questionnaire-status incomplete') do
+                  Questionnaire Incomplete
+
             - else
-              - link_to(polymorphic_path([:participant, trip_or_act, :questionnaire_record], :action => :new), :class => 'questionnaire-status incomplete') do
-                Questionnaire Incomplete
+              = link_to "Confirm", polymorphic_path([:participant, trip_or_act], trip_or_act.class.name.underscore => {:confirmed => true}), :method => :put
+              = link_to_if false, "Remove", polymorphic_path([:participant, trip_or_act]), :method => :delete
 
 

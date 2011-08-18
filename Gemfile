@@ -23,6 +23,9 @@ gem 'eventmachine'
 gem 'rest-client'
 gem 'daemons'
 
+gem 'jquery-rails'
+
+
 group :test, :development do
   gem "capistrano"
   gem "factory_girl"

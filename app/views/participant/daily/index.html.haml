@@ -1,0 +1,11 @@
+%h1== Your trips and activities by date
+
+%ul.days
+  - @trips_and_activities_by_day.each do |day, trips_and_acts|
+    %li
+      %h3=day.strftime("%a %b %d")
+      - completed = trips_and_acts.select(&:questionnaire_record)
+      - incompleted = trips_and_acts.reject(&:questionnaire_record)
+      .stats
+        = link_to "#{incompleted.size} incompleted activites and trips", participant_daily_path(day)
+        %span== #{completed.size} completed activities and trips

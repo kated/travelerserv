@@ -10,13 +10,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 9) do
+ActiveRecord::Schema.define(:version => 11) do
 
   create_table "activities", :force => true do |t|
-    t.integer "participant_id"
+    t.integer  "participant_id"
+    t.decimal  "latitude",       :precision => 15, :scale => 10
+    t.decimal  "longitude",      :precision => 15, :scale => 10
+    t.datetime "start",                                          :null => false
+    t.datetime "end",                                            :null => false
+    t.boolean  "confirmed"
   end
 
   add_index "activities", ["participant_id"], :name => "index_activities_on_participant_id"
+
+  create_table "activties_trips", :id => false, :force => true do |t|
+    t.integer "activity_id"
+    t.integer "trip_id"
+  end
 
   create_table "administrators", :force => true do |t|
     t.string   "first_name"
@@ -116,6 +126,31 @@ ActiveRecord::Schema.define(:version => 9) do
 
   add_index "image_files_questionnaires", ["image_file_id"], :name => "index_image_files_questionnaires_on_image_file_id"
   add_index "image_files_questionnaires", ["questionnaire_id"], :name => "index_image_files_questionnaires_on_questionnaire_id"
+
+  create_table "infousa", :force => true do |t|
+    t.string  "coname",     :limit => 500
+    t.string  "address",    :limit => 500
+    t.string  "city16",     :limit => 500
+    t.string  "stateshort", :limit => 5
+    t.string  "state",      :limit => 20
+    t.integer "zip"
+    t.integer "sic"
+    t.integer "naics_ext"
+    t.integer "sales_vol"
+    t.integer "hdbrch"
+    t.integer "number_emp"
+    t.string  "empsiz",     :limit => 5
+    t.integer "frncod"
+    t.string  "iscode",     :limit => 5
+    t.string  "sqft",       :limit => 5
+    t.string  "match_code", :limit => 10
+    t.integer "locnum"
+    t.float   "lng"
+    t.float   "lat"
+  end
+
+  add_index "infousa", ["lat"], :name => "lat"
+  add_index "infousa", ["lng"], :name => "lng"
 
   create_table "labs", :force => true do |t|
     t.string   "name"
@@ -330,8 +365,30 @@ ActiveRecord::Schema.define(:version => 9) do
     t.string   "travel_mode_specified_by"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "start"
+    t.datetime "end"
+    t.boolean  "confirmed"
   end
 
   add_index "trips", ["participant_id"], :name => "index_trips_on_participant_id"
+
+  create_table "users", :force => true do |t|
+    t.string   "email",                               :default => "", :null => false
+    t.string   "encrypted_password",   :limit => 128, :default => "", :null => false
+    t.string   "password_salt",                       :default => "", :null => false
+    t.string   "reset_password_token"
+    t.string   "remember_token"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",                       :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
 end
