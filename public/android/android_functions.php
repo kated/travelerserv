@@ -15,6 +15,7 @@
 		mysql_select_db("travelerserv_production") or die(ErrorLog(mysql_error()));
 		
 		$query1 = "SELECT id, participant_id FROM devices WHERE identification='".$aEnduro[1]."'";
+		// ErrorLog($query1);
 		$result = mysql_query($query1) or die(ErrorLog(mysql_error()));  // ideally this would be a stored proc
 		$row = mysql_fetch_array($result);
 		

@@ -50,6 +50,7 @@
 				} else {
 					$query2 = "UPDATE devices SET identification = '".$devid."' WHERE participant_id = ".$parcip;
 					mysql_query($query2) or die(ErrorLog(mysql_error()));
+					// ErrorLog($query2);
 				}
 			}
 		}
