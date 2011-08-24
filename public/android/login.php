@@ -2,9 +2,9 @@
 	// ini_set('display_errors','On');
 	require('enduro_functions.php');
 	
-	$devid = $_GET['devid'];
-	$user = $_GET['u'];
-	$pass = $_GET['p'];
+	$devid = $_POST['devid'];
+	$user = $_POST['u'];
+	$pass = $_POST['p'];
 	$match = 0;
 	$parcip = "";
 	$fields_string = "";
@@ -39,6 +39,7 @@
 		echo 0;	
 	} else {
 		$query1 = "SELECT participant_id, identification FROM devices WHERE participant_id = (SELECT id FROM participants WHERE email ='".$user."')";
+		// ErrorLog($query1);
 		$result1 = mysql_query($query1) or die(ErrorLog(mysql_error()));
 		$num_rows = mysql_num_rows($result1);
 		if ($num_rows != NULL) {
