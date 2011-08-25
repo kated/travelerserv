@@ -5,12 +5,26 @@ class Participant::QuestionnaireRecordsController < Participant::BaseController
   end
 
   def create
-    @questionnaire_record = @parent.build_questionnaire_record(params[:question_record])
+    @questionnaire_record = @parent.build_questionnaire_record(params[:questionnaire_record])
     @questionnaire_record.participant = current_participant
     if @questionnaire_record.save
       redirect_to root_path
     else
       render :action => "new"
+    end
+  end
+
+  def edit
+    @questionnaire_record = @parent.questionnaire_record
+  end
+
+  def update
+    @questionnaire_record = @parent.questionnaire_record
+    @questionnaire_record.attributes = params[:questionnaire_record]
+    if @questionnaire_record.save
+      redirect_to root_path
+    else
+      render :action => "edit"
     end
   end
 
