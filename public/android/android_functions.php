@@ -23,7 +23,7 @@
 		$participant_id = $row['participant_id'];
 		
 		if ($newtrip == "true") {
-			$query2 = "INSERT into trips (participant_id, created_at) VALUES (".$participant_id.",'".formatDate($aEnduro[12])."')";
+			$query2 = "INSERT into trips (participant_id, created_at, start) VALUES (".$participant_id.",'".formatDate($aEnduro[12])."','".formatDate($aEnduro[12])."')";
 			mysql_query($query2) or die(ErrorLog(mysql_error()));
 			$tripid = mysql_insert_id();
 		} else {
