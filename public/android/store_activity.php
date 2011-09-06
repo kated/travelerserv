@@ -48,6 +48,8 @@
 	
 		// return the geocoded results
 		echo foursquare($alat, $alon);
+		echo googleMaps($alat, $alon);
+		echo geoNames($alat, $alon);
 		
 		// Insert the activity into the travel_fixes table.
 		$aEnduro = array("",$devid,"","","","",-9,"",-9,1,floatval($alon),floatval($alat),$times); 
@@ -77,7 +79,7 @@
 	   $result = curl_exec($ch);
 	   $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 	   curl_close($ch);
-	   $line = "";
+	   $line = "=== GEONAMES ===\n ---" . date('l jS \of F Y h:i:s A') . "---\n";
 	   
 	   if ($httpCode == 200) {
 	   	  $doc = new SimpleXmlElement($result, LIBXML_NOCDATA);
@@ -100,7 +102,7 @@
 	   $result = curl_exec($ch);
 	   $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 	   curl_close($ch);
-	   $line = "";
+	   $line = "=== FOURSQUARE ===\n ---" . date('l jS \of F Y h:i:s A') . "---\n";
 	   
 	   if ($httpCode == 200) {
 	   		$obj = json_decode($result);
@@ -111,6 +113,34 @@
 	   			}
 	   			$line .= "\n";
 	   		}
+	   } else {
+	     $line = "HTTP_FAIL_$httpCode";
+	   }
+	   return $line;
+	}
+	function googleMaps($latitude, $longitude) {
+	   $geocodeURL = "https://maps.googleapis.com/maps/api/place/search/xml?location=".$latitude.",".$longitude."&radius=500&sensor=false&key=AIzaSyAdstnf_J0wjHZAJZLTItVrO7qQDzgHAYI";
+	   $ch = curl_init($geocodeURL);
+	   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	   $result = curl_exec($ch);
+	   $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	   curl_close($ch);
+	   $line = "=== GOOGLE ===\n ---" . date('l jS \of F Y h:i:s A') . "---\n";
+
+	   if ($httpCode == 200) {
+	   	  $doc = new SimpleXmlElement($result, LIBXML_NOCDATA);
+	   	  $cnt = count($doc->result);
+	   	  if ($cnt >= 10) 
+	   	  	$cnt = 10;
+	   	  for ($i=0;$i<$cnt;$i++) {
+	   	  		$viscount = $i+1;
+	   	  		$line .= $viscount . ". " . $doc->result[$i]->name . " (";
+	   	  		$typecnt = count($doc->result[$i]->type);
+	   	  		for ($j=0;$j<$typecnt;$j++) {
+	   	  			$line .= $doc->result[$i]->type[$j] . " ";
+	   	  		}
+	   	  		$line .= ")\n";
+	   	  }
 	   } else {
 	     $line = "HTTP_FAIL_$httpCode";
 	   }
