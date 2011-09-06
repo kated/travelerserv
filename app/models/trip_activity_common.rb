@@ -32,11 +32,11 @@ module TripActivityCommon
     end
 
     def first_fix_time
-      travel_fixes.first.try(:datetime)
+      self.start
     end
 
     def last_fix_time
-      travel_fixes.last.try(:datetime)
+      self.end
     end
 
     def move_to_another

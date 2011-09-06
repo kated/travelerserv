@@ -8,13 +8,4 @@ class Activity < ActiveRecord::Base
         sort_by(&:first_fix_time).
         group_by{|t| t.first_fix_time.try(:to_date) }
   end
-
-  def first_fix_time
-    self.start
-  end
-
-  def last_fix_time
-    self.end
-  end
-
 end
