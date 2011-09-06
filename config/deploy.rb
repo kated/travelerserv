@@ -20,11 +20,12 @@ role :db,  "geogremlin.geog.ucsb.edu", :primary => true # This is where Rails mi
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
 
-before "deploy:restart", "bundle:install", "link_errors"
+after "deploy:symlink", "link_errors"
+before "deploy:restart", "bundle:install"
 before "deploy:migrate", "bundle:install"
 
 task :link_errors do
-  run "ln -s #{shared_path}/EnduroErrors.log #{current_path}/public/android"
+  run "ln -fs #{shared_path}/EnduroErrors.log #{current_path}/public/android"
 end
 
 namespace :deploy do
