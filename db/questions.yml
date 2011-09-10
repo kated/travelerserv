@@ -24,7 +24,7 @@ Trip:
 
 Activity:
 - key: conveyance
-  type: MultipleChoice
+  type: MultipleChoiceMultipleAnswer
   question: How did you get from place to place?
   answer_choices:
   - Limitless power of the imagination
