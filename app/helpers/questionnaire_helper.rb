@@ -24,6 +24,7 @@ module QuestionnaireHelper
               answer = form.object.questionnaire_record_fields.find_or_initialize_by_question_key(question['key'])
               answer.kind = question["type"]
               answer.question = question["question"]
+              answer.checked = true
               form.fields_for(:questionnaire_record_fields_attributes, answer, :index => (i += 1)) do |fields|
                 fields.hidden_field(:id) +
                         render_question(parent, question, fields)
