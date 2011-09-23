@@ -17,12 +17,13 @@
 	$alon = $_POST['lon'];
 	$times = $_POST['t'];
 	$newtrip = $_POST['new'];
+	$fixprovider = $_POST['provider'];
 	$aEnduro = array("",$devid,"","","","",-9,"",-9,1,floatval($alon),floatval($alat),$times); 
 	
 	// ErrorLog($devid . "|" . $lat);
 	
 	if ($aEnduro[10] != 0 and $aEnduro[11] != 0) {	// and it has a valid lat/lon
-		DBAddFix($aEnduro, 'Android', $newtrip);		// send it to the database
+		DBAddFix($aEnduro, $fixprovider, $newtrip);		// send it to the database
 		// ErrorLog($times." - ".$newtrip."\n");
 	}
 	

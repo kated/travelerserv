@@ -25,7 +25,7 @@
 	
 	$id = $_POST['id'];		
 	$endact = $_POST['endact'];
-	
+	$fixprovider = $_POST['provider'];
 
 	mysql_connect("localhost", "enduro3001", "3nduro3001") or die(ErrorLog(mysql_error()));
 	mysql_select_db("travelerserv_production") or die(ErrorLog(mysql_error()));
@@ -69,7 +69,7 @@
 		$aEnduro = array("",$devid,"","","","",-9,"",-9,1,floatval($alon),floatval($alat),$times); 
 		
 		$query3 = "INSERT into travel_fixes (participant_id, latitude, longitude, altitude, speed, accuracy, device_id, positioning_method, created_at, updated_at, parent_id, parent_type) VALUES ";
-		$query3 .= "(".$participant_id.",".$aEnduro[11].",".$aEnduro[10].",".$aEnduro[8].",".$aEnduro[6].",".$aEnduro[9].",".$device_id.",'Android','".formatDate($aEnduro[12])."','".formatDate($aEnduro[12])."',".$actID.",'activity')";
+		$query3 .= "(".$participant_id.",".$aEnduro[11].",".$aEnduro[10].",".$aEnduro[8].",".$aEnduro[6].",".$aEnduro[9].",".$device_id.",'".$fixprovider."','".formatDate($aEnduro[12])."','".formatDate($aEnduro[12])."',".$actID.",'activity')";
 		mysql_query($query3) or die(ErrorLog(mysql_error()));
 		// Update the end time of the most recent trip
 		
@@ -90,7 +90,7 @@
 			$aEnduro = array("",$devid,"","","","",-9,"",-9,1,floatval($alon),floatval($alat),$times); 
 		
 			$query8 = "INSERT into travel_fixes (participant_id, latitude, longitude, altitude, speed, accuracy, device_id, positioning_method, created_at, updated_at, parent_id, parent_type) VALUES ";
-			$query8 .= "(".$participant_id.",".$aEnduro[11].",".$aEnduro[10].",".$aEnduro[8].",".$aEnduro[6].",".$aEnduro[9].",".$device_id.",'Android','".formatDate($aEnduro[12])."','".formatDate($aEnduro[12])."',".$id.",'activity')";
+			$query8 .= "(".$participant_id.",".$aEnduro[11].",".$aEnduro[10].",".$aEnduro[8].",".$aEnduro[6].",".$aEnduro[9].",".$device_id.",'".$fixprovider."','".formatDate($aEnduro[12])."','".formatDate($aEnduro[12])."',".$id.",'activity')";
 			mysql_query($query8) or die(ErrorLog(mysql_error()));
 		}
 	}
