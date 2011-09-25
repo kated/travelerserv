@@ -44,10 +44,16 @@ Activity:
 - key: howfeel
   type: StringAnswer
   question: And how does that make you feel?
+  conditional_on:
+    key: airline_food
+    answer: There isn't much anymore
 
 - key: swallow
   type: DecimalAnswer
   question: What is the airspeed velocity of an unladen swallow?
+  conditional_on:
+    key: conveyance
+    answer: Disaparated/floo powder
 
 - oneandten:
   key: oneandten

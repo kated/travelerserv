@@ -5,7 +5,9 @@ module QuestionnaireHelper
       content_tag :ul, :class => 'questions' do
         i = 0
         questions.collect do |question|
-          content_tag :li, :class => question["type"] do
+          data_attrs = {"data-key" => question["key"]}.merge(question["conditional_on"] ? {"data-conditional-key" => question["conditional_on"]["key"],
+                                                                                           "data-conditional-answer" => question["conditional_on"]["answer"]} : {})
+          content_tag(:li, {:class => question["type"] + (question["conditional_on"] ? " conditional" : "")}.merge(data_attrs)) do
             if question["type"] == "MultipleChoiceMultipleAnswer"
               other_answer = if question["allow_other"]
                 answer = form.object.questionnaire_record_fields.find_or_initialize_by_question_key_and_other(question['key'], true)
