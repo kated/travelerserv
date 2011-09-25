@@ -7,10 +7,22 @@ module QuestionnaireHelper
         questions.collect do |question|
           content_tag :li, :class => question["type"] do
             if question["type"] == "MultipleChoiceMultipleAnswer"
+              other_answer = if question["allow_other"]
+                answer = form.object.questionnaire_record_fields.find_or_initialize_by_question_key_and_other(question['key'], true)
+                answer.kind = question["type"]
+                answer.question = question["question"]
+                answer.other = true
+                form.fields_for(:questionnaire_record_fields_attributes, answer, :index => (i += 1)) do |fields|
+                  fields.hidden_field(:id) +
+                          render_question(parent, question, fields)
+                end
+              end
+
+
               content_tag :fieldset do
                 content_tag(:legend, question["question"]) +
                         raw(
-                                question["answer_choices"].collect do |ans|
+                                (question["answer_choices"].collect do |ans|
                                   answer = form.object.questionnaire_record_fields.find_or_initialize_by_question_key_and_text(question['key'], ans)
                                   answer.kind = question["type"]
                                   answer.question = question["question"]
@@ -18,7 +30,7 @@ module QuestionnaireHelper
                                     fields.hidden_field(:id) +
                                             render_question(parent, question, fields)
                                   end
-                                end.join(""))
+                                end + [other_answer]).join(""))
               end
             else
               answer = form.object.questionnaire_record_fields.find_or_initialize_by_question_key(question['key'])

@@ -2,6 +2,11 @@
   = form.hidden_field :question
   = form.hidden_field :question_key
   = form.hidden_field :kind
-  = form.hidden_field :text
+  = form.hidden_field :text unless form.object.other?
+  = form.hidden_field :other
   = form.check_box :checked
-  = form.label :checked, form.object.text
+  - if form.object.other?
+    = form.label "Other:"
+    = form.text_field :text
+  - else
+    = form.label :checked, form.object.text
