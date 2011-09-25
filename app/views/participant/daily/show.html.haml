@@ -1,14 +1,19 @@
 %h1== Your trips and activities on #{@date}
 
+= render "participant/googlemap", :map_name => "mainMap"
+
 %ul.days
+  - i = -1
   - @trips_and_activities_by_day.each do |day, trips_and_acts|
     %li
       %h3=day.strftime("%a %b %d")
       %ul.trips-or-activities
         - trips_and_acts.each do |trip_or_act|
-          %li{:class => trip_or_act.class.name.underscore}
-            =trip_or_act.class
-            =trip_or_act.id
+          %li[trip_or_act]
+            - color = trip_or_act.is_a?(Trip) ? COLORS[(i+=1) % COLORS.length] : "000000"
+            %span{:style=>"color: ##{color};"}
+              =trip_or_act.class
+              =trip_or_act.id
             ,
             =trip_or_act.travel_fixes.size
             fixes
@@ -28,4 +33,37 @@
               = link_to "Confirm", polymorphic_path([:participant, trip_or_act], trip_or_act.class.name.underscore => {:confirmed => true}), :method => :put
               = link_to_if false, "Remove", polymorphic_path([:participant, trip_or_act]), :method => :delete
 
+            - if trip_or_act.travel_fixes.any?
+              - if trip_or_act.is_a?(Trip)
+                :javascript
+                  $(function() {
+                    var myPathOpts = {strokeColor:'##{color}', strokeWeight: 2.0};
+                    var myPath = addPathToMap(allMaps.mainMap, #{trip_or_act.travel_fixes.geo_json_line.to_json}, myPathOpts);
+                    $("#trip_#{trip_or_act.id}").hover(function() {
+                      myPath.setOptions($.extend(myPathOpts, {strokeWeight: 5.0}));
+                    }, function() {
+                      myPath.setOptions($.extend(myPathOpts, {strokeWeight: 2.0}));
+                    });
+                  });
+                                
+              - else trip_or_act.travel_fixes.any?
+                :javascript
+                  $(function() {
+                    var myMarkerOpts = {
+                        position: new google.maps.LatLng(#{trip_or_act.latitude}, #{trip_or_act.longitude}),
+                        map: allMaps.mainMap,
+                        title:"#{trip_or_act.class} #{trip_or_act.id}",
+                        visible: false
+                    }
+                    var myMarker = new google.maps.Marker(myMarkerOpts);
+                    $("#activity_#{trip_or_act.id}").hover(function() {
+                      myMarker.setOptions($.extend(myMarkerOpts, {visible: true}));
+                    }, function() {
+                      myMarker.setOptions($.extend(myMarkerOpts, {visible: false}));
+                    });
+                  });
 
+:javascript
+  $(function() {
+    fitMapToBounds(allMaps.mainMap);
+  })

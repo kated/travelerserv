@@ -1,0 +1,12 @@
+%h3 Map
+#map{:style => "height: 400px; position: relative;"}
+- map_name ||= "untitled#{rand(100000)}"
+:javascript
+  $(function() {
+      var myOptions = {
+        zoom: 8,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      var map = new google.maps.Map(document.getElementById("map"), myOptions);
+      allMaps["#{map_name}"] = map;
+  });

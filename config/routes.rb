@@ -40,7 +40,7 @@ Travelerserv::Application.routes.draw do
     resources :activities do
       resource :questionnaire_record, :only => [:new, :create, :edit, :update]
     end
-    resources :trip do
+    resources :trips do
       resource :questionnaire_record, :only => [:new, :create, :edit, :update]
     end
   end
