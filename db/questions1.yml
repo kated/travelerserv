@@ -1,0 +1,61 @@
+Trip:
+# REQUIRED keys are: key, type, and question
+- key: conveyance
+  type: MultipleChoice
+  question: How did you get from place to place?
+  answer_choices:
+  - Limitless power of the imagination
+  - Put one foot in from of the other
+  - Disaparated/floo powder
+  - Bridge to transporter room, 3 to beam up
+
+- key: howfeel
+  type: StringAnswer
+  question: And how does that make you feel?
+
+- key: swallow
+  type: DecimalAnswer
+  question: What is the airspeed velocity of an unladen swallow?
+
+- oneandten:
+  key: oneandten
+  type: IntegerAnswer
+  question: Pick a number between 1 and 10.
+
+Activity:
+- key: conveyance
+  type: MultipleChoiceMultipleAnswer
+  question: How did you get from place to place?
+  allow_other: true
+  answer_choices:
+  - Limitless power of the imagination
+  - Put one foot in from of the other
+  - Disaparated/floo powder
+  - Bridge to transporter room, 3 to beam up
+
+- key: airline_food
+  type: MultipleChoice
+  question: What's the deal with airline food?
+  answer_choices:
+  - It costs money
+  - There isn't much anymore
+  - Back in my day we didn't even have food, let alone airplanes
+
+- key: howfeel
+  type: StringAnswer
+  question: And how does that make you feel?
+  conditional_on:
+    key: airline_food
+    answer: There isn't much anymore
+
+- key: swallow
+  type: DecimalAnswer
+  question: What is the airspeed velocity of an unladen swallow?
+  conditional_on:
+    key: conveyance
+    answer: Disaparated/floo powder
+
+- oneandten:
+  key: oneandten
+  type: IntegerAnswer
+  question: Pick a number between 1 and 10.
