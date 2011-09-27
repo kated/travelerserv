@@ -1,13 +1,13 @@
-Trip:# REQUIRED keys are: key, type, and question-key: mode type:  MultipleChoice question: What type of transportation did you use for this trip? answer_choices:   - Drive alone (car, truck or van)  - Drive with passengers (car, truck or van)  - Passenger in vehicle (car, truck or van)  - Bus  - Walk  - Bicycle  - Motorcycle/ scooter 
+Trip:# REQUIRED keys are: key, type, and question- key: mode  type:  MultipleChoice  question: What type of transportation did you use for this trip?  answer_choices:   - Drive alone (car, truck or van)  - Drive with passengers (car, truck or van)  - Passenger in vehicle (car, truck or van)  - Bus  - Walk  - Bicycle  - Motorcycle/ scooter 
   - Other
 #summary of CHTS modes
 
--key: other_mode
+- key: other_mode
  type: StringAnswer
  question: Please specify.
  conditional_on_question: mode
  conditional_on_answer: "Other"
--key: trip_purp type:  StringAnswer question: What was the purpose of this trip?-key: travel_comp_num
+- key: trip_purp type:  StringAnswer question: What was the purpose of this trip?- key: travel_comp_num
  type: IntegerAnswer
  question: How many others traveled with you (not including yourself)?
  
@@ -33,33 +33,33 @@ Trip:# REQUIRED keys are: key, type, and question-key: mode type:  MultipleCh
 #summarized from CENTRESIM data codebook
 Activity:
 
--key: placename type: StringAnswer question: Please tell us where this activity was taking place?-key: primary type: MultipleChoice question: What was the primary activity purpose? Answer_choices:   - Home activities  - Work activities (including volunteering)  - Education activities  - Eating out  - Personal Business outside of the home (medical, administrative, etc)  - Shopping  - Social and Recreational activities  - Accompanying/ Helping others  - Other-key: secondary_home type: MultipleChoiceMultipleAnswer question: Please provide further details about your home activities (select all that apply). Answer_choices:  - Sleeping  - Preparing a meal eating  - Home maintenance/ cleaning  - Household management (bills, etc)  - Personal care (showering, grooming, etc)  - Using computer/ telephone  - Caring for others  - Paid work
+- key: placename type: StringAnswer question: Please tell us where this activity was taking place?- key: primary type: MultipleChoice question: What was the primary activity purpose? Answer_choices:   - Home activities  - Work activities (including volunteering)  - Education activities  - Eating out  - Personal Business outside of the home (medical, administrative, etc)  - Shopping  - Social and Recreational activities  - Accompanying/ Helping others  - Other- key: secondary_home type: MultipleChoiceMultipleAnswer question: Please provide further details about your home activities (select all that apply). Answer_choices:  - Sleeping  - Preparing a meal eating  - Home maintenance/ cleaning  - Household management (bills, etc)  - Personal care (showering, grooming, etc)  - Using computer/ telephone  - Caring for others  - Paid work
   - Studying  - Other
  conditional_on_question: primary
  conditional_on_answer: "Home activities"
 #concern for analysis- might need time spent in some select categories.  Talk to KGG
 
--key: secondary_work
+- key: secondary_work
  type: MultipleChoice question: Please provide further details about your work activities. Answer_choices:  - Main job  - Internship  - Second job
   - Community Service/ volunteer work  - Other
  conditional_on_question: primary
- conditional_on_answer: "Work activities"-key: secondary_edu type: MultipleChoice question: Please provide further detail about your education/ childcare activity Answer_choices:   - Attendance at childcare  - Attendance at school  - Attendance at college  - Breaks/ Waiting at place of general education  - Self study for distance education  - Homework, study, research  - Career/ professional development training and studies  - Other conditional_on_question: primary
+ conditional_on_answer: "Work activities"- key: secondary_edu type: MultipleChoice question: Please provide further detail about your education/ childcare activity Answer_choices:   - Attendance at childcare  - Attendance at school  - Attendance at college  - Breaks/ Waiting at place of general education  - Self study for distance education  - Homework, study, research  - Career/ professional development training and studies  - Other conditional_on_question: primary
  conditional_on_answer: "Education activities"
- -key: secondary_eating type: MultipleChoice question: Please provide further detail about your eating out activities. Answer_choices:   - at a restaurant  - fast food  - at a friends home  - picnicking
+ - key: secondary_eating type: MultipleChoice question: Please provide further detail about your eating out activities. Answer_choices:   - at a restaurant  - fast food  - at a friends home  - picnicking
  conditional_on_question: primary
  conditional_on_answer: "Eating out"
 
--key: secondary_personal type: MultipleChoice question: Please provide further detail about your personal business activities. Answer_choices:   - Medical appointment  - Administrative (post office, banking, accountant, legal services)  - Other
+- key: secondary_personal type: MultipleChoice question: Please provide further detail about your personal business activities. Answer_choices:   - Medical appointment  - Administrative (post office, banking, accountant, legal services)  - Other
  conditional_on_question: primary
  conditional_on_answer: "Personal Business outside of the home (medical, administrative, etc)"
 
--key: secondary_shopping type: MultipleChoice question: Please provide further detail about your shopping activities. Answer_choices:   - Purchasing groceries (food, household supplies)
+- key: secondary_shopping type: MultipleChoice question: Please provide further detail about your shopping activities. Answer_choices:   - Purchasing groceries (food, household supplies)
   - Purchasing clothing, shoes, and other retail
   - Purchasing other
  conditional_on_question: primary
  conditional_on_answer: "Shopping"
 
--key: secondary_social type: MultipleChoice question: Please provide further detail about your social and recreational activities. Answer_choices:   - communication/ correspondence
+- key: secondary_social type: MultipleChoice question: Please provide further detail about your social and recreational activities. Answer_choices:   - communication/ correspondence
   - socializing activities
   - participating in religious/ community or cultural activities
   - visiting entertainment or cultural venue
@@ -69,27 +69,27 @@ Trip:# REQUIRED keys are: key, type, and question-key: mode type:  MultipleCh
  conditional_on_question: primary
  conditional_on_answer: "Social and Recreational activities"
 
--key: secondary_accompany type: MultipleChoice question: Please provide further detail about accompanying others. Answer_choices:   - Accompanying children
+- key: secondary_accompany type: MultipleChoice question: Please provide further detail about accompanying others. Answer_choices:   - Accompanying children
   - Accompanying adults
   - Pick up or drop off others at activities
   - Other
  conditional_on_question: primary
  conditional_on_answer: "Accompanying/ Helping others"
 
--key: secondary_other
+- key: secondary_other
  type: StringAnswer
  question: Please explain other.
  conditional_on_question: primary
  conditional_on_answer: "Other"
  
- -key: companion
+- key: companion
   type: MultipleChoice
   question: Did you conduct this activity with anyone else?
   Answer_choices: 
    - yes
    - no
  
--key: companion_type
+- key: companion_type
  type: MultipleChoiceMultipleAnswerInteger
  question: We would like to know who else was with you while you conducted this activity (please select appropriate number for each)
  answer_choices: 
@@ -105,4 +105,4 @@ Trip:# REQUIRED keys are: key, type, and question-key: mode type:  MultipleCh
    - Coworker
    - Other (non-relative)
  conditional_on_question: companion
- conditional_on_answer: "yes"#new answer type?!?!-key: alt_loc type: MultipleChoice question: Did you consider any other location for this activity? answer_choices:  - yes  - no  -key: loc_exp type: String question: Where else did you condider for this activity? conditional_on_question: alt_loc conditional_on_answer: "yes" -key: decision type: MultipleChoice question: We would like to know a little more about the decision to conduct this activity at this location.   Please select all that apply to the decision making process. answer_choices:  - I made this decision by myself because I am conducting this activity alone  - I made this decision by myself because I was the most likely person to decide  - I made this decision with other people who were not conducting the activity with me  - I made this decision with other people who were conducting the activity with me  - I did not make this decision, it was already decided for me  - I did not make this decision, it is the regular place for this activity  - I did not make this decision, someone else who conducting this activity with me did   -key: dec_who type: String question: Please explain who else was involved in this decision making. conditional_on_question: decision conditional_on_answer: "I made this decision with other people who were not conducting the activity with me" or "I made this decision with other people who were conducting the activity with me" -key: dec_roles type: String question: Please explain how these people were involved in this decision making. conditional_on_question: dec_who conditional_on_answer: "yes" -key: sop   
+ conditional_on_answer: "yes"#new answer type?!?!-key: alt_loc type: MultipleChoice question: Did you consider any other location for this activity? answer_choices:  - yes  - no  - key: loc_exp type: String question: Where else did you condider for this activity? conditional_on_question: alt_loc conditional_on_answer: "yes" - key: decision type: MultipleChoice question: We would like to know a little more about the decision to conduct this activity at this location.   Please select all that apply to the decision making process. answer_choices:  - I made this decision by myself because I am conducting this activity alone  - I made this decision by myself because I was the most likely person to decide  - I made this decision with other people who were not conducting the activity with me  - I made this decision with other people who were conducting the activity with me  - I did not make this decision, it was already decided for me  - I did not make this decision, it is the regular place for this activity  - I did not make this decision, someone else who conducting this activity with me did   - key: dec_who type: String question: Please explain who else was involved in this decision making. conditional_on_question: decision conditional_on_answer: "I made this decision with other people who were not conducting the activity with me" or "I made this decision with other people who were conducting the activity with me" - key: dec_roles type: String question: Please explain how these people were involved in this decision making. conditional_on_question: dec_who conditional_on_answer: "yes"    
