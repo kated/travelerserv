@@ -5,6 +5,8 @@ module QuestionnaireHelper
       content_tag :ul, :class => 'questions' do
         i = 0
         questions.collect do |question|
+          raise "Question #{question.inspect} is missing 'type' attribute" if question["type"].blank?
+          raise "Question #{question.inspect} is missing 'key' attribute" if question["key"].blank?
           data_attrs = {"data-key" => question["key"]}.merge(question["conditional_on"] ? {"data-conditional-key" => question["conditional_on"]["key"],
                                                                                            "data-conditional-answer" => question["conditional_on"]["answer"]} : {})
           content_tag(:li, {:class => question["type"] + (question["conditional_on"] ? " conditional" : "")}.merge(data_attrs)) do
@@ -54,5 +56,7 @@ module QuestionnaireHelper
   def render_question(parent, question, form)
     render :partial => "/participant/questionnaire_records/questions/#{question["type"].underscore}", :locals =>
             {:question => question, :parent => parent, :form => form}
+  rescue ActionView::MissingTemplate
+    "<i>Unknown question type #{question["type"]}, ignoring.</i>".html_safe
   end
 end

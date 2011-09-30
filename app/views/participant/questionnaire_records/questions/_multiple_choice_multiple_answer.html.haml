@@ -1,3 +1,5 @@
+- raise "Question #{question.inspect} is missing answer_choices" unless question["answer_choices"].present?
+
 .field
   = form.hidden_field :question
   = form.hidden_field :question_key

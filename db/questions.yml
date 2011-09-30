@@ -26,11 +26,11 @@ Trip:
 
 - key: travel_comp_num
   type: IntegerAnswer
-  question: How many others traveled with you (not including yourself)?
+  question: 'How many others traveled with you (not including yourself)?'
  
-- key:travel_comp_type
+- key: travel_comp_type
   type: MultipleChoice
-  question: What relation do these people have to you (select all that apply)?
+  question: 'What relation do these people have to you (select all that apply)?'
   answer_choices:
    - Spouse/ significant other
    - Child
@@ -57,7 +57,7 @@ Activity:
 - key: primary
   type: MultipleChoice
   question: What was the primary activity purpose?
-  Answer_choices:
+  answer_choices:
   - Home activities
   - Work activities (including volunteering)
   - Education activities
@@ -71,7 +71,7 @@ Activity:
 - key: secondary_home
   type: MultipleChoiceMultipleAnswer
   question: Please provide further details about your home activities (select all that apply).
-  Answer_choices:
+  answer_choices:
   - Sleeping
   - Preparing a meal eating
   - Home maintenance/ cleaning
@@ -89,7 +89,7 @@ Activity:
 - key: secondary_work
   type: MultipleChoice
   question: Please provide further details about your work activities.
-  Answer_choices:
+  answer_choices:
   - Main job
   - Internship
   - Second job
@@ -101,7 +101,7 @@ Activity:
 - key: secondary_edu
   type: MultipleChoice
   question: Please provide further detail about your education/ childcare activity
-  Answer_choices:
+  answer_choices:
   - Attendance at childcare
   - Attendance at school
   - Attendance at college
@@ -116,7 +116,7 @@ Activity:
 - key: secondary_eating
   type: MultipleChoice
   question: Please provide further detail about your eating out activities.
-  Answer_choices:
+  answer_choices:
   - at a restaurant
   - fast food
   - at a friends home
@@ -127,7 +127,7 @@ Activity:
 - key: secondary_personal
   type: MultipleChoice
   question: Please provide further detail about your personal business activities.
-  Answer_choices:
+  answer_choices:
   - Medical appointment
   - Administrative (post office, banking, accountant, legal services)
   - Other
@@ -137,7 +137,7 @@ Activity:
 - key: secondary_shopping
   type: MultipleChoice
   question: Please provide further detail about your shopping activities.
-  Answer_choices:
+  answer_choices:
   - Purchasing groceries (food, household supplies)
   - Purchasing clothing, shoes, and other retail
   - Purchasing other
@@ -147,7 +147,7 @@ Activity:
 - key: secondary_social
   type: MultipleChoice
   question: Please provide further detail about your social and recreational activities.
-  Answer_choices:
+  answer_choices:
   - communication/ correspondence
   - socializing activities
   - participating in religious/ community or cultural activities
@@ -161,7 +161,7 @@ Activity:
 - key: secondary_accompany
   type: MultipleChoice
   question: Please provide further detail about accompanying others.
-  Answer_choices:
+  answer_choices:
   - Accompanying children
   - Accompanying adults
   - Pick up or drop off others at activities
@@ -178,7 +178,7 @@ Activity:
 - key: companion
   type: MultipleChoice
   question: Did you conduct this activity with anyone else?
-  Answer_choices: 
+  answer_choices:
   - yes
   - no
  
@@ -209,7 +209,7 @@ Activity:
   - no
 
 - key: loc_exp
-  type: String
+  type: StringAnswer
   question: Where else did you condider for this activity?
   conditional_on_question: alt_loc
   conditional_on_answer: "yes"
@@ -227,13 +227,13 @@ Activity:
   - I did not make this decision, someone else who conducting this activity with me did  
 
 - key: dec_who
-  type: String
+  type: StringAnswer
   question: Please explain who else was involved in this decision making.
   conditional_on_question: decision
   conditional_on_answer: '"I made this decision with other people who were not conducting the activity with me" or "I made this decision with other people who were conducting the activity with me"'
 
 - key: dec_roles
-  type: String
+  type: StringAnswer
   question: Please explain how these people were involved in this decision making.
   conditional_on_question: dec_who
   conditional_on_answer: "yes"

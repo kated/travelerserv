@@ -1,2 +1,3 @@
+- raise "Question #{question.inspect} is missing answer_choices" unless question["answer_choices"].present?
 = render :partial => '/participant/questionnaire_records/questions/header', :locals => {:question => question, :parent => parent, :form => form}
 = form.select :text, question["answer_choices"]
