@@ -31,7 +31,7 @@
 
             - else
               = link_to "Confirm", polymorphic_path([:participant, trip_or_act], trip_or_act.class.name.underscore => {:confirmed => true}), :method => :put
-              = link_to_if false, "Remove", polymorphic_path([:participant, trip_or_act]), :method => :delete
+              = link_to "Remove", polymorphic_path([:participant, trip_or_act]), :method => :delete
 
             - if trip_or_act.travel_fixes.any?
               - if trip_or_act.is_a?(Trip)

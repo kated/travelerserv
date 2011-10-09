@@ -7,5 +7,11 @@ class Participant::ActivitiesController < Participant::BaseController
 
   def destroy
     @activity = Activity.find(params[:id])
+    if @activity.remove_and_merge!
+      flash[:notice] = "Successfully removed activity"
+    else      
+      flash[:alert] = "Cannot remove activity"
+    end
+    redirect_to participant_daily_path(@activity.start.to_date)
   end
 end

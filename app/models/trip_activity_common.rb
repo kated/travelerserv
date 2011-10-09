@@ -14,8 +14,6 @@ module TripActivityCommon
       has_many :questionnaire_records, :as => :subject
       belongs_to :participant
       has_one :questionnaire_record, :as => :subject
-      before_destroy :move_to_another
-
       scope :on_date, lambda { |d|
         where(["start BETWEEN ? AND ?", d, (d + 1.day)])
       }
@@ -39,11 +37,23 @@ module TripActivityCommon
       self.end
     end
 
-    def move_to_another
-      others = Activity.and_trips_by_day(participant.trips.on_date(self.start.to_date), participant.activities.on_date(self.start.to_date))
-      others -= [self]
-      return false unless others.any?
-      return false
+    def remove_and_merge!
+      all_today = self.class.opposite.on_date(self.start.to_date).order("start ASC")
+      before_obj = all_today.select { |t| t.start < self.start }.last
+      after_obj = all_today.select { |t| t.start >= self.start }.first
+      if before_obj && after_obj
+        self.move_fixes_to!(before_obj)
+        after_obj.move_fixes_to!(before_obj)
+        self.destroy
+        after_obj.destroy
+        true
+      else
+        false
+      end
+    end
+
+    def move_fixes_to!(other)
+      self.travel_fixes.each {|t| t.update_attribute(:parent, other)}
     end
   end
 
