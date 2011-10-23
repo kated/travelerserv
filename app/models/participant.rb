@@ -1,4 +1,6 @@
 class Participant < ActiveRecord::Base
+  include HasQuestionnaire
+
   has_many :devices
   has_many :travel_fixes
   has_many :trips
@@ -9,7 +11,7 @@ class Participant < ActiveRecord::Base
   has_many :log_entries
   
   belongs_to :household
-  
+
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :registerable
   
   attr_protected :encrypted_password, :password_salt

@@ -31,6 +31,15 @@ class Participant::QuestionnaireRecordsController < Participant::BaseController
   private
 
   def find_parent
-    @parent = params[:trip_id] ? current_participant.trips.find(params[:trip_id]) : current_participant.activities.find(params[:activity_id])
+    @parent = case true
+      when params[:trip_id].present?
+        current_participant.trips.find(params[:trip_id])
+      when params[:activity_id].present?
+        current_participant.activities.find(params[:activity_id])
+      when params[:household_id].present?
+        current_participant.household
+      when params[:participant_id].present?
+        current_participant
+    end
   end
 end

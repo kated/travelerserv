@@ -11,9 +11,7 @@ module TripActivityCommon
           end
         end
       end
-      has_many :questionnaire_records, :as => :subject
       belongs_to :participant
-      has_one :questionnaire_record, :as => :subject
       scope :on_date, lambda { |d|
         where(["start BETWEEN ? AND ?", d, (d + 1.day)])
       }

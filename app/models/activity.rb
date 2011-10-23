@@ -1,5 +1,7 @@
 class Activity < ActiveRecord::Base
   include TripActivityCommon
+  include HasQuestionnaire
+
   belongs_to :participant
 
   def self.and_trips_by_day(trip_scope = Trip, activity_scope = Activity)

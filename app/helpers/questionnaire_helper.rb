@@ -1,6 +1,7 @@
 module QuestionnaireHelper
   def questionnaire_for(parent)
     questions = ::QUESTIONS[parent.class.name]
+    raise "NO questions in questions.yml for type #{parent.class.name}" unless questions.present?
     form_for @questionnaire_record, :url => polymorphic_path([:participant, parent, :questionnaire_record]) do |form|
       content_tag :ul, :class => 'questions' do
         i = 0

@@ -43,6 +43,12 @@ Travelerserv::Application.routes.draw do
     resources :trips do
       resource :questionnaire_record, :only => [:new, :create, :edit, :update]
     end
+    resources :participants do
+      resource :questionnaire_record, :only => [:new, :create, :edit, :update]
+    end
+    resources :households do
+      resource :questionnaire_record, :only => [:new, :create, :edit, :update]
+    end
   end
   
 #  root :to => 'participant/site#dashboard'

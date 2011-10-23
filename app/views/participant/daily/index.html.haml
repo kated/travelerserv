@@ -1,3 +1,9 @@
+- if current_participant.questionnaire_record.blank?
+  %h2= link_to "Missing participant questionnaire", polymorphic_path([:participant, current_participant, :questionnaire_record], :action => :new)
+
+- if current_participant.household && current_participant.household.questionnaire_record.blank?
+  %h2= link_to "Missing household questionnaire", polymorphic_path([:participant, current_participant.household, :questionnaire_record], :action => :new)
+
 %h1== Your trips and activities by date
 
 %ul.days

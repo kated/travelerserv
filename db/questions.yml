@@ -1,4 +1,14 @@
 # REQUIRED keys are: key, type, and question
+Participant:
+- key: dummy
+  type: StringAnswer
+  question: "What's up?"
+
+Household:
+- key: dummy
+  type: StringAnswer
+  question: "How's life?"
+
 Trip:
 - key: mode
   type:  MultipleChoice
