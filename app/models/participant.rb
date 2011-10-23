@@ -10,7 +10,7 @@ class Participant < ActiveRecord::Base
   
   belongs_to :household
   
-  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :registerable
   
   attr_protected :encrypted_password, :password_salt
   
