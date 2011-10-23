@@ -8,6 +8,8 @@ class Participant < ActiveRecord::Base
   has_many :questionnaire_records
   has_many :log_entries
   
+  belongs_to :household
+  
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable
   
   attr_protected :encrypted_password, :password_salt

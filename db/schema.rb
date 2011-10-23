@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 14) do
+ActiveRecord::Schema.define(:version => 16) do
 
   create_table "activities", :force => true do |t|
     t.integer  "participant_id"
@@ -108,6 +108,12 @@ ActiveRecord::Schema.define(:version => 14) do
   end
 
   add_index "histories", ["item", "table", "month", "year"], :name => "index_histories_on_item_and_table_and_month_and_year"
+
+  create_table "households", :force => true do |t|
+    t.text     "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "image_files", :force => true do |t|
     t.string   "name"
@@ -215,6 +221,7 @@ ActiveRecord::Schema.define(:version => 14) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cell_number"
+    t.integer  "household_id"
   end
 
   add_index "participants", ["invitation_token"], :name => "index_participants_on_invitation_token"
