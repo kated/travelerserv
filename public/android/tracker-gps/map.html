@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+  html { height: 100% }
+  body { height: 100%; margin: 0; padding: 0 }
+  #map_canvas { height: 100% }
+</style>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false">
+</script>
+<script type="text/javascript">
+var georssLayer = null;
+var georssLayer2 = null;
+var map = null;
+  function initialize() {
+		var myLatlng = new google.maps.LatLng(49.496675,-102.65625);
+		var myOptions = {
+		  zoom: 4,
+		  center: myLatlng,
+		  mapTypeId: google.maps.MapTypeId.ROADMAP
+		}
+		
+		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+		  
+		georssLayer = new google.maps.KmlLayer('http://geogremlin.geog.ucsb.edu/android/tracker-gps/kml.php?month=10&day=25&user=2');
+		georssLayer.setMap(map);
+		georssLayer2 = new google.maps.KmlLayer('http://geogremlin.geog.ucsb.edu/android/tracker-gps/points.php?month=10&day=25&user=2');
+		georssLayer2.setMap(map);
+  }
+  function updateKML() {
+  	var month = document.getElementById('month').value;	
+  	var day = document.getElementById('day').value;	
+  	var userid = document.getElementById('userid').value;
+  		
+	georssLayer2 = new google.maps.KmlLayer('http://geogremlin.geog.ucsb.edu/android/tracker-gps/points.php?month='+month+'&day='+day+'&user='+userid);
+	georssLayer2.setMap(map);
+  	georssLayer = new google.maps.KmlLayer('http://geogremlin.geog.ucsb.edu/android/tracker-gps/kml.php?month='+month+'&day='+day+'&user='+userid);
+	georssLayer.setMap(map);
+  }
+
+</script>
+</head>
+<body onload="initialize()">
+  <div id="map_canvas" style="width:100%; height:100%">
+
+  </div>
+    	<div style="position:absolute;width:250px;height:130px;z-index:30;border: solid 1px #333333;background-color:#ffffff;bottom:15px;right:10px">
+  		<table>
+  		<tr>
+  		  <td>User ID</td>
+  		  <td><input type="text" value="2" id="userid" /></td>
+  		 </tr>
+  		 <tr>
+  		  <td>Month</td>
+  		  <td><input type="text" value="10" id="month"/></td>
+  		 </tr>
+  		 <tr>
+  		  <td>Day</td>
+  		  <td><input type="text" value="25" id="day" /></td>
+  		 </tr>
+  		 <tr>
+  		  <td>&nbsp;</td>
+  		  <td><button onclick="updateKML();">Update Map</td>
+  		 </tr>
+  		</table>
+  	</div>
+</body>
+</html>
+
