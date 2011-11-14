@@ -15,6 +15,8 @@
 	$lat = $_POST['lat'];
 	$lng = $_POST['lng'];
 	$ts = $_POST['t'];
+	$source = $_POST['source'];
+	$app = $_POST['app'];
 	/* $devid = $_GET['devid'];
 	$lat = $_GET['lat'];
 	$lng = $_GET['lng'];
@@ -31,7 +33,7 @@
 			while($row = mysql_fetch_array($result)){
 				$parcip = $row['id'];
 			}
-			$query2 = "INSERT INTO fixes VALUES ('',".$parcip.",".$lat.",".$lng.",'".$ts."')";
+			$query2 = "INSERT INTO fixes VALUES ('',".$parcip.",".$lat.",".$lng.",'".$ts."','".$source."','".$app."')";
 			// echo $query2;
 			$result2 = mysql_query($query2) or die(ErrorLog(mysql_error()));
 			echo 1;
