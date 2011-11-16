@@ -14,7 +14,7 @@
 	$pass = $_GET['p']; */
 	$devid = $_POST['devid'];
 	$user = $_POST['u'];
-	$pass = $_POST['p'];
+	$pass = md5($_POST['p']);
 	$match = 0;
 	$parcip = "";
 	
