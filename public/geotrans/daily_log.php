@@ -54,11 +54,12 @@
 <td colspan="2">
 
 <h2>Please complete a log of todays activities</h2>
-<p>Please begin your day with the location and activity taking place at 2am the day of, and end your log with the location and activity which you participated in at 1:59am the next morning. </p>
-<p>Each location that you were at during the day should be recorded as a unique entry in the table</p>
-<p>Please record the start and end time as well as the address as accurately as possible. It is ok to use building names for places on the UCSB campus, but use numerical building addresses where appropriate</p>
-<p>Example:</p>
-<p><img src="log_example.png" width="1337" height="430" /><br/>
+<p>Please begin your day with the location and activity taking place at 12am the morning of, and end your log with the location and activity which you participated in at 11:59pm that night. </p>
+<p>Please report each location at which you spent 5 minutes duration or more. Each location that you were at during the day should be recorded as a unique entry in the table.</p>
+<p>Please record the start and end time as well as the address as accurately as possible. It is ok to use building names for places on the UCSB campus, but use numerical building addresses or latitude and longitude where appropriate</p>
+<p>When reporting the type of transportation used, please report the primary mode (for instance riding a bike and then taking a longer bus ride would be recorded as bus)</p>
+<p>Example log:</p>
+<p><img src="log_example.png" width="1152" height="429" /><br/>
 </p>
 <form action="daily_log2.php" method="post">
   
@@ -94,13 +95,13 @@ For today's activities please record the following details:
 	<tr>
 		<td width = 16></td>
 
-		<td width = 170>Start Time of activity (am/pm)</td>
-		<td width = 170>End Time of activity (am/pm)</td>
-		<td width = 170>Address (number and street) of activity</td>
+		<td width = 60>Start Time (am/pm)</td>
+		<td width = 60>End Time (am/pm)</td>
+		<td width = 160>Address (number and street) of activity</td>
         <td width = 40> City </td>
         <td width = 40> State </td>
-        <td width = 40> Zip Code </td>
-		<td width=  170>Name of place where the activity was conducted</td>
+        <td width = 20> Zip Code </td>
+		<td width=  160>Name of place where the activity was conducted</td>
         <td width = 124>Mode of transportation used to arrive at the activity</td>
 		<td width = 165>Activity Conducted</td>
         
@@ -109,12 +110,12 @@ For today's activities please record the following details:
 	</tr>
 	<tr>
 		<td>1</td>
-		<td><input type="text" name="stime1" length="6"></td>
-		<td><input type="text" name="etime1" length="6"></td>
+		<td><input type="text" name="stime1" size="9"></td>
+		<td><input type="text" name="etime1" size="9"></td>
 		<td><input type="text" name="add1" length="6"></td>
         <td><input type="text" name="city1" length="6"></td>
-        <td><input type="text" name="state1" length="6"></td>
-        <td><input type="text" name="zip1" length="6"></td> 
+        <td><input type="text" name="state1" size="6"></td>
+        <td><input type="text" name="zip1" size="10"></td> 
         <td><input type="text" name="place1" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="post" action="">
 		  <blockquote>
@@ -138,12 +139,12 @@ For today's activities please record the following details:
 	</tr>
 	<tr>
 		<td>2</td>
-		<td><input type="text" name="stime2" length="6"></td>
-		<td><input type="text" name="etime2" length="6"></td>
+		<td><input type="text" name="stime2" size="9"></td>
+		<td><input type="text" name="etime2" size="9"></td>
 		<td><input type="text" name="add2" length="6"></td>
         <td><input type="text" name="city2" length="6"></td>
-        <td><input type="text" name="state2" length="6"></td>
-        <td><input type="text" name="zip2" length="6"></td>
+        <td><input type="text" name="state2" size="6"></td>
+        <td><input type="text" name="zip2" size="10"></td>
         <td><input type="text" name="place2" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="post" action="">
 		  <blockquote>
@@ -166,12 +167,12 @@ For today's activities please record the following details:
 	</tr>
 	<tr>
 		<td>3</td>
-		<td><input type="text" name="stime3" length="6"></td>
-		<td><input type="text" name="etime3" length="6"></td>
+		<td><input type="text" name="stime3" size="9"></td>
+		<td><input type="text" name="etime3" size="9"></td>
 		<td><input type="text" name="add3" length="6"></td>
         <td><input type="text" name="city3" length="6"></td>
-        <td><input type="text" name="state3" length="6"></td>
-        <td><input type="text" name="zip3" length="6"></td>
+        <td><input type="text" name="state3" size="6"></td>
+        <td><input type="text" name="zip3" size="10"></td>
         <td><input type="text" name="place3" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="post" action="">
 		  <blockquote>
@@ -195,12 +196,12 @@ For today's activities please record the following details:
 	</tr>
 	<tr>
 		<td>4</td>
-		<td><input type="text" name="stime4" length="6"></td>
-		<td><input type="text" name="etime4" length="6"></td>
+		<td><input type="text" name="stime4" size="9"></td>
+		<td><input type="text" name="etime4" size="9"></td>
 		<td><input type="text" name="add4" length="6"></td>
         <td><input type="text" name="city4" length="6"></td>
-        <td><input type="text" name="state4" length="6"></td>
-        <td><input type="text" name="zip4" length="6"></td>
+        <td><input type="text" name="state4" size="6"></td>
+        <td><input type="text" name="zip4" size="10"></td>
         <td><input type="text" name="place4" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="post" action="">
 		  <blockquote>
@@ -223,12 +224,12 @@ For today's activities please record the following details:
 	</tr>
 	<tr>
 		<td>5</td>
-		<td><input type="text" name="stime5" length="6"></td>
-		<td><input type="text" name="etime5" length="6"></td>
+		<td><input type="text" name="stime5" size="9"></td>
+		<td><input type="text" name="etime5" size="9"></td>
 		<td><input type="text" name="add5" length="6"></td>
         <td><input type="text" name="city5" length="6"></td>
-        <td><input type="text" name="state5" length="6"></td>
-        <td><input type="text" name="zip5" length="6"></td>
+        <td><input type="text" name="state5" size="6"></td>
+        <td><input type="text" name="zip5" size="10"></td>
         <td><input type="text" name="place5" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="post" action="">
 		  <blockquote>
@@ -251,12 +252,12 @@ For today's activities please record the following details:
 	</tr>
 	<tr>
 		<td>6</td>
-		<td><input type="text" name="stime6" length="6"></td>
-		<td><input type="text" name="etime6" length="6"></td>
+		<td><input type="text" name="stime6" size="9"></td>
+		<td><input type="text" name="etime6" size="9"></td>
 		<td><input type="text" name="add6" length="6"></td>
         <td><input type="text" name="city6" length="6"></td>
-        <td><input type="text" name="state6" length="6"></td>
-        <td><input type="text" name="zip6" length="6"></td>
+        <td><input type="text" name="state6" size="6"></td>
+        <td><input type="text" name="zip6" size="10"></td>
         <td><input type="text" name="place6" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="post" action="">
 		  <blockquote>
@@ -279,12 +280,12 @@ For today's activities please record the following details:
 	</tr>	
 	<tr>
 		<td>7</td>
-		<td><input type="text" name="stime7" length="6"></td>
-		<td><input type="text" name="etime7" length="6"></td>
+		<td><input type="text" name="stime7" size="9"></td>
+		<td><input type="text" name="etime7" size="9"></td>
 		<td><input type="text" name="add7" length="6"></td>
         <td><input type="text" name="city7" length="6"></td>
-        <td><input type="text" name="state7" length="6"></td>
-        <td><input type="text" name="zip7" length="6"></td>
+        <td><input type="text" name="state7" size="6"></td>
+        <td><input type="text" name="zip7" size="10"></td>
         <td><input type="text" name="place7" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="post" action="">
 		  <blockquote>
@@ -307,12 +308,12 @@ For today's activities please record the following details:
         </tr>	
 	<tr>
 		<td>8</td>
-		<td><input type="text" name="stime8" length="6"></td>
-		<td><input type="text" name="etime8" length="6"></td>
+		<td><input type="text" name="stime8" size="9"></td>
+		<td><input type="text" name="etime8" size="9"></td>
 		<td><input type="text" name="add8" length="6"></td>
         <td><input type="text" name="city8" length="6"></td>
-        <td><input type="text" name="state8" length="6"></td>
-        <td><input type="text" name="zip8" length="6"></td>
+        <td><input type="text" name="state8" size="6"></td>
+        <td><input type="text" name="zip8" size="10"></td>
         <td><input type="text" name="place8" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="post" action="">
 		  <blockquote>
@@ -335,12 +336,12 @@ For today's activities please record the following details:
         </tr>	
 	<tr>
 		<td>9</td>
-		<td><input type="text" name="stime9" length="6"></td>
-		<td><input type="text" name="etime9" length="6"></td>
+		<td><input type="text" name="stime9" size="9"></td>
+		<td><input type="text" name="etime9" size="9"></td>
 		<td><input type="text" name="add9" length="6"></td>
         <td><input type="text" name="city9" length="6"></td>
-        <td><input type="text" name="state9" length="6"></td>
-        <td><input type="text" name="zip9" length="6"></td>
+        <td><input type="text" name="state9" size="6"></td>
+        <td><input type="text" name="zip9" size="10"></td>
         <td><input type="text" name="place9" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="post" action="">
 		  <blockquote>
@@ -363,12 +364,12 @@ For today's activities please record the following details:
         </tr>	
 	<tr>
 		<td>10</td>
-		<td><input type="text" name="stime10" length="6"></td>
-		<td><input type="text" name="etime10" length="6"></td>
+		<td><input type="text" name="stime10" size="9"></td>
+		<td><input type="text" name="etime10" size="9"></td>
 		<td><input type="text" name="add10" length="6"></td>
         <td><input type="text" name="city10" length="6"></td>
-        <td><input type="text" name="state10" length="6"></td>
-        <td><input type="text" name="zip10" length="6"></td>
+        <td><input type="text" name="state10" size="6"></td>
+        <td><input type="text" name="zip10" size="10"></td>
         <td><input type="text" name="place10" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="post" action="">
 		  <blockquote>
@@ -391,12 +392,12 @@ For today's activities please record the following details:
         </tr>	
 	<tr>
 		<td>11</td>
-		<td><input type="text" name="stime11" length="6"></td>
-		<td><input type="text" name="etime11" length="6"></td>
+		<td><input type="text" name="stime11" size="9"></td>
+		<td><input type="text" name="etime11" size="9"></td>
 		<td><input type="text" name="add11" length="6"></td>
         <td><input type="text" name="city11" length="6"></td>
-        <td><input type="text" name="state11" length="6"></td>
-        <td><input type="text" name="zip11" length="6"></td>
+        <td><input type="text" name="state11" size="6"></td>
+        <td><input type="text" name="zip11" size="10"></td>
         <td><input type="text" name="place11" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="6post" action="">
 		  <blockquote>
@@ -419,12 +420,12 @@ For today's activities please record the following details:
         </tr>	
 	<tr>
 		<td>12</td>
-		<td><input type="text" name="stime12" length="6"></td>
-		<td><input type="text" name="etime12" length="6"></td>
+		<td><input type="text" name="stime12" size="9"></td>
+		<td><input type="text" name="etime12" size="9"></td>
 		<td><input type="text" name="add12" length="6"></td>
         <td><input type="text" name="city12" length="6"></td>
-        <td><input type="text" name="state12" length="6"></td>
-        <td><input type="text" name="zip12" length="6"></td>
+        <td><input type="text" name="state12" size="6"></td>
+        <td><input type="text" name="zip12" size="10"></td>
         <td><input type="text" name="place12" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="post" action="">
 		  <blockquote>
@@ -447,12 +448,12 @@ For today's activities please record the following details:
         </tr>	
 	<tr>
 		<td>13</td>
-		<td><input type="text" name="stime13" length="6"></td>
-		<td><input type="text" name="etime13" length="6"></td>
+		<td><input type="text" name="stime13" size="9"></td>
+		<td><input type="text" name="etime13" size="9"></td>
 		<td><input type="text" name="add13" length="6"></td>
         <td><input type="text" name="city13" length="6"></td>
-        <td><input type="text" name="state13" length="6"></td>
-        <td><input type="text" name="zip13" length="6"></td>
+        <td><input type="text" name="state13" size="6"></td>
+        <td><input type="text" name="zip13" size="10"></td>
         <td><input type="text" name="place13" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="post" action="">
 		  <blockquote>
@@ -475,12 +476,12 @@ For today's activities please record the following details:
         </tr>	
 	<tr>
 		<td>14</td>
-		<td><input type="text" name="stime14" length="6"></td>
-		<td><input type="text" name="etime14" length="6"></td>
+		<td><input type="text" name="stime14" size="9"></td>
+		<td><input type="text" name="etime14" size="9"></td>
 		<td><input type="text" name="add14" length="6"></td>
         <td><input type="text" name="city14" length="6"></td>
-        <td><input type="text" name="state14" length="6"></td>
-        <td><input type="text" name="zip14" length="6"></td>
+        <td><input type="text" name="state14" size="6"></td>
+        <td><input type="text" name="zip14" size="10"></td>
         <td><input type="text" name="place14" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="post" action="">
 		  <blockquote>
@@ -503,12 +504,12 @@ For today's activities please record the following details:
         </tr>	
 	<tr>
 		<td>15</td>
-		<td><input type="text" name="stime15" length="6"></td>
-		<td><input type="text" name="etime15" length="6"></td>
+		<td><input type="text" name="stime15" size="9"></td>
+		<td><input type="text" name="etime15" size="9"></td>
 		<td><input type="text" name="add15" length="6"></td>
         <td><input type="text" name="city15" length="6"></td>
-        <td><input type="text" name="state15" length="6"></td>
-        <td><input type="text" name="zip15" length="6"></td>
+        <td><input type="text" name="state15" size="6"></td>
+        <td><input type="text" name="zip15" size="10"></td>
         <td><input type="text" name="place15" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="post" action="">
 		  <blockquote>
@@ -531,12 +532,12 @@ For today's activities please record the following details:
         </tr>	
 	<tr>
 		<td>16</td>
-		<td><input type="text" name="stime16" length="6"></td>
-		<td><input type="text" name="etime16" length="6"></td>
+		<td><input type="text" name="stime16" size="9"></td>
+		<td><input type="text" name="etime16" size="9"></td>
 		<td><input type="text" name="add16" length="6"></td>
         <td><input type="text" name="city16" length="6"></td>
-        <td><input type="text" name="state16" length="6"></td>
-        <td><input type="text" name="zip16" length="6"></td>
+        <td><input type="text" name="state16" size="6"></td>
+        <td><input type="text" name="zip16" size="10"></td>
         <td><input type="text" name="place16" length="6" /></td>
         <!--<td><form id="form1" name="mode1" method="post" action="">
 		  <blockquote>
