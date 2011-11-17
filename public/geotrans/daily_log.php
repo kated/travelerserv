@@ -61,6 +61,10 @@
 <p>Example log:</p>
 <p><img src="log_example.png" width="1152" height="429" /><br/>
 </p>
+<br/><br/>
+For today's activities please record the following details:
+<br/><br/>
+<p>Please don't forget to select the correct day. </p>
 <form action="daily_log2.php" method="post">
   
   Please select a day: 
@@ -87,9 +91,7 @@
  <option value="1206">December 06</option>
  <option value="1207">December 07</option>
 </select>
-<br/><br/>
-For today's activities please record the following details:
-<br/><br/>
+
 
 <table  border = 2>
 	<tr>
