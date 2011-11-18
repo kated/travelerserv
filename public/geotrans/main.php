@@ -49,28 +49,27 @@
 <tr>
 <!-- First Row -->
 <!-- Logo -->
-<td width=200 bgcolor=#999999 valign=top><p><center><a href="index.html"><img src= pedals.png HD/Users/Kate/Dropbox/web_survey/ucsb_1.jpg alt="" width=80% border=0></a></center>
+<td width=200 bgcolor=#999999 valign=top><p><center><a href="index.html"><img src= pedals.png alt="" width=80% border=0></a></center>
 
 
 <!-- Breadcrumbs & Search -->
 <td valign=top height=100% colspan=2><table border=0 width=100% cellspacing=0 cellpadding=0><tr><td bgcolor=606060 height=30%>
 
-<!-- for a top navigation bar: <a href="index.html"><font color=white size=-1>Home</a> > <a href="examples.html"><font color=white>Examples</a> > <a href="example_dichotomous.html"><font color=white>Dichotomous Questions</a> -->
+
 
 
 <td align=right bgcolor=606060><!-- <input type="text" size="20" value="Search Keywords"> <button>Search</button> --></align>
-<!-- Title -->
-<!--<span class="Cap">PE</span><span class="text">ople's</span> <span class="Cap">D</span><span class="text">aily</span> <span class="Cap">A</span><span class="text">ctivities</span> <span class="and">and</span> <span class="Cap">L</span><span class="text">ocations</span> <span class="Cap">S</span><span class="text">urvey</span></p></td> -->
+
 
 <tr>
-  <td  colspan=2 bgcolor=#999999><img src=ucsb_1.jpg width=80% height="154" HD/Users/Kate/Dropbox/web_survey/ucsb_1.jpg/> </table>
+  <td  colspan=2 bgcolor=#999999><img src=ucsb_1.jpg width=80% height="154"/> </table>
 
 
 <tr>
 <!-- Second Row -->
 <!--  Sidebar -->
 <td bgcolor=#999999 valign=top><br>
-<!--&nbsp;&nbsp;<a href="index.html"><font color=white size=+1>About the Project</font></a><br>&nbsp;&nbsp;<a href="defs.html"><font color=white size=+1>Definitions</font></a><br>&nbsp;&nbsp;<a href="theory.html"><font color=white size=+1>Theory/Principles</font></a><hr>&nbsp;&nbsp;<a href="guidelines.html"><font color=white size=+1>Guidelines</font></a><br><table width=100% cellspacing=0 cellpadding=0 bgcolor=666699><tr><td bgcolor=white>&nbsp;&nbsp;<a href="examples.html"><font color=black size=+1>Examples</font></a></table><hr>&nbsp;&nbsp;<a href="tools.html"><font color=white size=+1>Tools/Services</font></a><br><hr>&nbsp;&nbsp;<a href="bibliography.html"><font color=white size=+1>Bibliography</font></a><br>&nbsp;&nbsp;<a href="addresources.html"><font color=white size=+1>Additional Resources</font></a><hr>&nbsp;&nbsp;<a href="aboutus.html"><font color=white size=+1>About Us</font></a><br><br> -->
+
 
 <td width=10><td valign=top>
 <!-- Main Content --><br>
@@ -101,8 +100,6 @@ If you are finished please log out
 </body>
 </html>
 
-<!-- comments on this page: would like to have a checkmark to designate the complete or incomplete status of the survey portions
-one daily activity log for each day???  -->
 
 <?
 	}
